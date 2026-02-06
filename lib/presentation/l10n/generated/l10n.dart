@@ -274,6 +274,16 @@ class S {
     );
   }
 
+  /// `Incorrect OTP. Please try again`
+  String get validation_invalid_otp {
+    return Intl.message(
+      'Incorrect OTP. Please try again',
+      name: 'validation_invalid_otp',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Privacy Policy`
   String get privacy_policy {
     return Intl.message(

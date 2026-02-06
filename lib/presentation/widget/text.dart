@@ -1,27 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wapipay_challenge/presentation/theme/colors.dart';
 
-final TextStyle textStyleLight = TextStyle(
-  fontFamily: 'Halenoir',
-  fontWeight: FontWeight.w300,
-);
-final TextStyle textStyleRegular = TextStyle(
-  fontFamily: 'Halenoir',
-  fontWeight: FontWeight.w400,
-);
-final TextStyle textStyleMedium = TextStyle(
-  fontFamily: 'Halenoir',
-  fontWeight: FontWeight.w500,
-);
-final TextStyle textStyleBold = TextStyle(
-  fontFamily: 'Halenoir',
-  fontWeight: FontWeight.bold,
-);
-final TextStyle textStyleBlack = TextStyle(
-  fontFamily: 'Halenoir',
-  fontWeight: FontWeight.w900,
-);
-
 enum WPTextType { normal, url }
 
 class WPText extends StatelessWidget {
@@ -100,6 +79,27 @@ class WPText extends StatelessWidget {
   final int? maxLines;
   final TextOverflow? overflow;
   final TextAlign? textAlign;
+
+  static final TextStyle textStyleLight = TextStyle(
+    fontFamily: 'Halenoir',
+    fontWeight: FontWeight.w300,
+  );
+  static final TextStyle textStyleRegular = TextStyle(
+    fontFamily: 'Halenoir',
+    fontWeight: FontWeight.w400,
+  );
+  static final TextStyle textStyleMedium = TextStyle(
+    fontFamily: 'Halenoir',
+    fontWeight: FontWeight.w500,
+  );
+  static final TextStyle textStyleBold = TextStyle(
+    fontFamily: 'Halenoir',
+    fontWeight: FontWeight.bold,
+  );
+  static final TextStyle textStyleBlack = TextStyle(
+    fontFamily: 'Halenoir',
+    fontWeight: FontWeight.w900,
+  );
 
   @override
   Widget build(BuildContext context) {

@@ -25,6 +25,7 @@
   "label_phone_number": "Phone number",
   "i_accept_the": "I accept Wapi Pay ",
   "validation_invalid_phone": "Please enter a valid phone number",
+  "validation_invalid_otp": "Incorrect OTP. Please try again",
   "privacy_policy": "Privacy Policy",
   "terms_of_service": "Terms of Service",
   "number_confirmation_rationale": "Is this number correct? We'll send you a confirmation code there",

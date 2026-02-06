@@ -49,7 +49,9 @@ class WPTextField extends StatelessWidget {
       obscuringCharacter: obscureCharacter ?? '*',
       cursorColor: appLightGreen,
       onChanged: onTextChanged,
-      style: textStyleMedium.copyWith(color: errored ? appErrorRed : appBlack),
+      style: WPText.textStyleMedium.copyWith(
+        color: errored ? appErrorRed : appBlack,
+      ),
       textInputAction: isLastInputInForm
           ? TextInputAction.done
           : TextInputAction.next,
@@ -106,7 +108,10 @@ class WPTextField extends StatelessWidget {
         hintText: hint,
         hintStyle: hint == null
             ? null
-            : textStyleRegular.copyWith(color: Colors.grey, fontSize: 14),
+            : WPText.textStyleRegular.copyWith(
+                color: Colors.grey,
+                fontSize: 14,
+              ),
       ),
     );
   }

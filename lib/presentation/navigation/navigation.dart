@@ -8,6 +8,7 @@ class WapiPayRouter extends RootStackRouter {
     AutoRoute(page: WelcomeRoute.page, initial: true),
     AutoRoute(page: LoginRoute.page),
     AutoRoute(page: OtpRoute.page),
+    AutoRoute(page: PinRoute.page),
     AutoRoute(page: HomeRoute.page),
   ];
 }

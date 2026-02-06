@@ -7,4 +7,6 @@ class Config {
     code: '+254',
     name: 'Kenya',
   );
+
+  static int otpTimeMinutes = 1;
 }

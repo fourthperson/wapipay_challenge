@@ -17,6 +17,7 @@ import 'package:wapipay_challenge/domain/use_case/phone_check_use_case.dart';
 import 'package:wapipay_challenge/presentation/l10n/generated/l10n.dart';
 import 'package:wapipay_challenge/presentation/navigation/navigation.dart';
 import 'package:wapipay_challenge/presentation/screen/login/bloc/login_bloc.dart';
+import 'package:wapipay_challenge/presentation/screen/otp/bloc/otp_bloc.dart';
 
 part 'di.dart';
 
@@ -38,6 +39,9 @@ class WapiPayChallengeApp extends StatelessWidget {
         BlocProvider(
           create: (_) =>
               LoginBloc(phoneCheckUseCase: locator<PhoneCheckUseCase>()),
+        ),
+        BlocProvider(
+          create: (_) => OtpBloc(otpVerifyUseCase: locator<OtpVerifyUseCase>()),
         ),
       ],
       child: MaterialApp.router(

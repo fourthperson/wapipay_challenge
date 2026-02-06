@@ -3,13 +3,22 @@ import 'package:wapipay_challenge/presentation/theme/colors.dart';
 
 class WPLoader extends StatelessWidget {
   final Color? color;
+  final double? size;
+  final double? thickness;
 
-  const WPLoader({this.color, super.key});
+  const WPLoader({this.color, this.size, this.thickness, super.key});
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: CircularProgressIndicator(color: appLightGreen, strokeWidth: 2),
+      child: SizedBox(
+        height: size,
+        width: size,
+        child: CircularProgressIndicator(
+          color: color ?? appLightGreen,
+          strokeWidth: thickness ?? 2,
+        ),
+      ),
     );
   }
 }

@@ -111,7 +111,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     controller: phoneController,
                                     textInputType: TextInputType.phone,
                                     hint: strings.label_phone_number,
-                                    onTextChanged: (p) => context
+                                    onTextChanged: (String p) => context
                                         .read<LoginBloc>()
                                         .add(PhoneChangedEvent(p)),
                                     prefixIcon: Padding(

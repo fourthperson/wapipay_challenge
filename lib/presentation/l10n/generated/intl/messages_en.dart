@@ -64,6 +64,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "terms_of_service": MessageLookupByLibrary.simpleMessage(
       "Terms of Service",
     ),
+    "validation_invalid_otp": MessageLookupByLibrary.simpleMessage(
+      "Incorrect OTP. Please try again",
+    ),
     "validation_invalid_phone": MessageLookupByLibrary.simpleMessage(
       "Please enter a valid phone number",
     ),

@@ -2,8 +2,11 @@ import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
+import 'package:wapipay_challenge/domain/entity/otp_result.dart';
 import 'package:wapipay_challenge/presentation/l10n/generated/l10n.dart';
+import 'package:wapipay_challenge/presentation/screen/otp/bloc/otp_bloc.dart';
 import 'package:wapipay_challenge/presentation/theme/colors.dart';
 import 'package:wapipay_challenge/presentation/widget/app_bar.dart';
 import 'package:wapipay_challenge/presentation/widget/loader.dart';
@@ -20,53 +23,24 @@ class OtpScreen extends StatefulWidget {
 }
 
 class _OtpScreenState extends State<OtpScreen> {
-  bool loading = false;
   late TextEditingController otpController;
-  Timer? _timer;
-  int _remaining = 60;
-  bool _canResend = false;
 
   @override
   void initState() {
     super.initState();
     otpController = TextEditingController();
-    startTimer();
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
     otpController.dispose();
     super.dispose();
   }
 
-  void startTimer() {
-    _canResend = false;
-    _remaining = 60;
-    _timer?.cancel();
-
-    _timer = Timer.periodic(const Duration(seconds: 1), (Timer timer) {
-      if (_remaining == 0) {
-        setState(() {
-          _canResend = true;
-          timer.cancel();
-        });
-      } else {
-        setState(() {
-          _remaining--;
-        });
-      }
-    });
-  }
-
   Future<void> confirm() async {
-    setState(() {
-      loading = true;
-    });
+    setState(() {});
     await Future.delayed(Duration(seconds: 2));
-    setState(() {
-      loading = false;
-    });
+    setState(() {});
   }
 
   @override
@@ -76,7 +50,7 @@ class _OtpScreenState extends State<OtpScreen> {
     final PinTheme pinTheme = PinTheme(
       height: 48,
       width: 42,
-      textStyle: textStyleBold.copyWith(color: appBlack, fontSize: 16),
+      textStyle: WPText.textStyleBold.copyWith(color: appBlack, fontSize: 16),
     );
 
     final BoxDecoration decoration = BoxDecoration(
@@ -85,76 +59,146 @@ class _OtpScreenState extends State<OtpScreen> {
       color: appInputBackground,
     );
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-      child: Stack(
-        children: [
-          Scaffold(
-            backgroundColor: appWhite,
-            appBar: WPAppBar(),
-            body: SafeArea(
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      WPText.bold(strings.enter_otp, fontSize: 34),
-                      WPText.regular(
-                        strings.enter_otp_rationale(widget.phone),
-                        color: appBlack.withValues(alpha: 0.75),
-                        fontSize: 18,
-                      ),
-                      const SizedBox(height: 24),
-                      Pinput(
-                        length: 6,
-                        cursor: Container(
-                          color: appLightGreen,
-                          width: 1.5,
-                          height: 18,
-                        ),
-                        controller: otpController,
-                        textInputAction: TextInputAction.done,
-                        animationCurve: Curves.linear,
-                        defaultPinTheme: pinTheme.copyWith(
-                          decoration: decoration.copyWith(
-                            border: Border.all(color: appInputBackground),
-                          ),
-                        ),
-                        focusedPinTheme: pinTheme.copyWith(
-                          decoration: decoration.copyWith(
-                            border: Border.all(color: appBlack),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 36),
-                      _canResend
-                          ? GestureDetector(
-                              behavior: HitTestBehavior.opaque,
-                              onTap: () async {
-                                await confirm();
-                                startTimer();
-                              },
-                              child: WPText.link(
-                                strings.resend_otp,
-                                textAlign: TextAlign.center,
-                                color: appBlack,
-                              ),
-                            )
-                          : WPText.bold(
-                              strings.resend_otp_timer(_remaining),
-                              textAlign: TextAlign.center,
-                              color: appBlack.withValues(alpha: 0.5),
+    return BlocListener<OtpBloc, OtpState>(
+      listener: (BuildContext context, OtpState state) {
+        if (state.status == OtpStatus.failure) {
+          // Todo show relevant WPAlert
+          otpController.clear();
+        }
+
+        if (state.status == OtpStatus.success &&
+            state.otpResult is SuccessfulOtpResult) {
+          // Handle successful verification (e.g., navigate to Dashboard)
+          // context.router.replaceAll([const DashboardRoute()]);
+        }
+      },
+      child: BlocBuilder<OtpBloc, OtpState>(
+        builder: (BuildContext context, OtpState state) {
+          final bool incorrect = state.otpResult is IncorrectOtpResult;
+
+          return GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+            child: Stack(
+              children: [
+                Scaffold(
+                  backgroundColor: appWhite,
+                  appBar: WPAppBar(),
+                  body: SafeArea(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            WPText.bold(strings.enter_otp, fontSize: 34),
+                            WPText.regular(
+                              strings.enter_otp_rationale(widget.phone),
+                              color: appBlack.withValues(alpha: 0.75),
+                              fontSize: 18,
                             ),
-                    ],
+                            const SizedBox(height: 24),
+                            Center(
+                              child: SizedBox(
+                                width: 300,
+                                child: Column(
+                                  crossAxisAlignment:
+                                      CrossAxisAlignment.stretch,
+                                  children: [
+                                    Pinput(
+                                      length: 6,
+                                      forceErrorState: incorrect,
+                                      cursor: Container(
+                                        color: incorrect
+                                            ? appErrorRed
+                                            : appLightGreen,
+                                        width: 1.5,
+                                        height: 18,
+                                      ),
+                                      controller: otpController,
+                                      textInputAction: TextInputAction.done,
+                                      animationCurve: Curves.linear,
+                                      onCompleted: (String pin) =>
+                                          context.read<OtpBloc>().add(
+                                            OtpVerifySubmittedEvent(
+                                              phone: widget.phone,
+                                              otp: pin,
+                                            ),
+                                          ),
+                                      defaultPinTheme: pinTheme.copyWith(
+                                        decoration: decoration.copyWith(
+                                          border: Border.all(
+                                            color: appInputBackground,
+                                          ),
+                                        ),
+                                      ),
+                                      focusedPinTheme: pinTheme.copyWith(
+                                        decoration: decoration.copyWith(
+                                          border: Border.all(color: appBlack),
+                                        ),
+                                      ),
+                                      errorPinTheme: pinTheme.copyWith(
+                                        decoration: decoration.copyWith(
+                                          border: Border.all(
+                                            color: appInputErrorBackground,
+                                          ),
+                                          color: appInputErrorBackground,
+                                        ),
+                                      ),
+                                      errorTextStyle: WPText.textStyleBold
+                                          .copyWith(
+                                            color: appErrorRed,
+                                            fontSize: 16,
+                                          ),
+                                    ),
+                                    if (incorrect) ...[
+                                      WPText.medium(
+                                        strings.validation_invalid_otp,
+                                        color: appErrorRed,
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 36),
+                            state.status == OtpStatus.loading
+                                ? WPLoader(
+                                    size: 24,
+                                    thickness: 3,
+                                    color: appBlack,
+                                  )
+                                : state.canResend
+                                ? GestureDetector(
+                                    behavior: HitTestBehavior.opaque,
+                                    onTap: () => context.read<OtpBloc>().add(
+                                      OtpResendRequestedEvent(
+                                        phone: widget.phone,
+                                      ),
+                                    ),
+                                    child: WPText.link(
+                                      strings.resend_otp,
+                                      textAlign: TextAlign.center,
+                                      color: appBlack,
+                                    ),
+                                  )
+                                : WPText.bold(
+                                    strings.resend_otp_timer(
+                                      state.remainingTime,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                    color: appBlack.withValues(alpha: 0.5),
+                                  ),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ),
-          if (loading) ...[WPLoaderOverlay()],
-        ],
+          );
+        },
       ),
     );
   }

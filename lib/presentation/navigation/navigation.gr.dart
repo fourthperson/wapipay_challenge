@@ -9,26 +9,28 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:auto_route/auto_route.dart' as _i5;
-import 'package:flutter/material.dart' as _i6;
+import 'package:auto_route/auto_route.dart' as _i6;
+import 'package:flutter/material.dart' as _i7;
 import 'package:wapipay_challenge/presentation/screen/home/home_screen.dart'
     as _i1;
 import 'package:wapipay_challenge/presentation/screen/login/login_screen.dart'
     as _i2;
 import 'package:wapipay_challenge/presentation/screen/otp/otp_screen.dart'
     as _i3;
-import 'package:wapipay_challenge/presentation/screen/welcome/welcome_screen.dart'
+import 'package:wapipay_challenge/presentation/screen/pin/pin_screen.dart'
     as _i4;
+import 'package:wapipay_challenge/presentation/screen/welcome/welcome_screen.dart'
+    as _i5;
 
 /// generated route for
 /// [_i1.HomeScreen]
-class HomeRoute extends _i5.PageRouteInfo<void> {
-  const HomeRoute({List<_i5.PageRouteInfo>? children})
+class HomeRoute extends _i6.PageRouteInfo<void> {
+  const HomeRoute({List<_i6.PageRouteInfo>? children})
     : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
-  static _i5.PageInfo page = _i5.PageInfo(
+  static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
       return const _i1.HomeScreen();
@@ -38,13 +40,13 @@ class HomeRoute extends _i5.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.LoginScreen]
-class LoginRoute extends _i5.PageRouteInfo<void> {
-  const LoginRoute({List<_i5.PageRouteInfo>? children})
+class LoginRoute extends _i6.PageRouteInfo<void> {
+  const LoginRoute({List<_i6.PageRouteInfo>? children})
     : super(LoginRoute.name, initialChildren: children);
 
   static const String name = 'LoginRoute';
 
-  static _i5.PageInfo page = _i5.PageInfo(
+  static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
       return const _i2.LoginScreen();
@@ -54,11 +56,11 @@ class LoginRoute extends _i5.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.OtpScreen]
-class OtpRoute extends _i5.PageRouteInfo<OtpRouteArgs> {
+class OtpRoute extends _i6.PageRouteInfo<OtpRouteArgs> {
   OtpRoute({
     required String phone,
-    _i6.Key? key,
-    List<_i5.PageRouteInfo>? children,
+    _i7.Key? key,
+    List<_i6.PageRouteInfo>? children,
   }) : super(
          OtpRoute.name,
          args: OtpRouteArgs(phone: phone, key: key),
@@ -67,7 +69,7 @@ class OtpRoute extends _i5.PageRouteInfo<OtpRouteArgs> {
 
   static const String name = 'OtpRoute';
 
-  static _i5.PageInfo page = _i5.PageInfo(
+  static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
       final args = data.argsAs<OtpRouteArgs>();
@@ -81,7 +83,7 @@ class OtpRouteArgs {
 
   final String phone;
 
-  final _i6.Key? key;
+  final _i7.Key? key;
 
   @override
   String toString() {
@@ -100,17 +102,33 @@ class OtpRouteArgs {
 }
 
 /// generated route for
-/// [_i4.WelcomeScreen]
-class WelcomeRoute extends _i5.PageRouteInfo<void> {
-  const WelcomeRoute({List<_i5.PageRouteInfo>? children})
+/// [_i4.PinScreen]
+class PinRoute extends _i6.PageRouteInfo<void> {
+  const PinRoute({List<_i6.PageRouteInfo>? children})
+    : super(PinRoute.name, initialChildren: children);
+
+  static const String name = 'PinRoute';
+
+  static _i6.PageInfo page = _i6.PageInfo(
+    name,
+    builder: (data) {
+      return const _i4.PinScreen();
+    },
+  );
+}
+
+/// generated route for
+/// [_i5.WelcomeScreen]
+class WelcomeRoute extends _i6.PageRouteInfo<void> {
+  const WelcomeRoute({List<_i6.PageRouteInfo>? children})
     : super(WelcomeRoute.name, initialChildren: children);
 
   static const String name = 'WelcomeRoute';
 
-  static _i5.PageInfo page = _i5.PageInfo(
+  static _i6.PageInfo page = _i6.PageInfo(
     name,
     builder: (data) {
-      return const _i4.WelcomeScreen();
+      return const _i5.WelcomeScreen();
     },
   );
 }
