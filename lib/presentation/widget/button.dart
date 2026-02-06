@@ -43,6 +43,7 @@ class WPButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final bool isSecondary = type == WPButtonType.secondary;
+    final bool isCustom = type == WPButtonType.custom;
 
     return GestureDetector(
       onTap: onTap,
@@ -51,13 +52,17 @@ class WPButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(32),
           border: BoxBorder.all(
             width: 2,
-            color: isSecondary
+            color: isCustom && color != null
+                ? color!
+                : isSecondary
                 ? appBlack
                 : isActive
                 ? appLightGreen
                 : appDarkGreen,
           ),
-          color: isSecondary
+          color: isCustom && color != null
+              ? color!
+              : isSecondary
               ? Colors.transparent
               : isActive
               ? appLightGreen
@@ -66,9 +71,13 @@ class WPButton extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(12),
           child: Center(
-            child: WPText.regular(
+            child: WPText.medium(
               text,
-              color: isSecondary ? appBlack : appWhite,
+              color: isCustom
+                  ? textColor
+                  : isSecondary
+                  ? appBlack
+                  : appWhite,
             ),
           ),
         ),

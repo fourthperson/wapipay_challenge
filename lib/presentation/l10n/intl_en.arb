@@ -48,5 +48,6 @@
   },
   "resend_otp": "Resend OTP",
   "label_try_again": "Try again",
-  "label_home": "Home"
+  "label_home": "Home",
+  "label_enter_pin": "Enter PIN"
 }

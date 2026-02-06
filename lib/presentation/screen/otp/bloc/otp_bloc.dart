@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wapipay_challenge/domain/entity/otp_result.dart';
 import 'package:wapipay_challenge/domain/use_case/otp_verify_use_case.dart';
+import 'package:wapipay_challenge/domain/use_case/user_set_use_case.dart';
 import 'package:wapipay_challenge/presentation/util/config.dart';
 
 part 'otp_event.dart';
@@ -12,11 +13,15 @@ part 'otp_state.dart';
 
 class OtpBloc extends Bloc<OtpEvent, OtpState> {
   final OtpVerifyUseCase _otpVerifyUseCase;
+  final UserSetUseCase _userSetUseCase;
   StreamSubscription<int>? _timerSubscription;
 
-  OtpBloc({required OtpVerifyUseCase otpVerifyUseCase})
-    : _otpVerifyUseCase = otpVerifyUseCase,
-      super(const OtpState()) {
+  OtpBloc({
+    required OtpVerifyUseCase otpVerifyUseCase,
+    required UserSetUseCase userSetUseCase,
+  }) : _otpVerifyUseCase = otpVerifyUseCase,
+       _userSetUseCase = userSetUseCase,
+       super(const OtpState()) {
     on<OtpTimerTickedEvent>(_onTimerTicked);
     on<OtpVerifySubmittedEvent>(_onVerifySubmitted);
     on<OtpResendRequestedEvent>(_onResendRequested);
@@ -58,6 +63,8 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
       );
 
       if (result is SuccessfulOtpResult) {
+        // save user locally
+        await _userSetUseCase.invoke(user: result.user);
         emit(state.copyWith(status: OtpStatus.success, otpResult: result));
       } else if (result is IncorrectOtpResult) {
         emit(

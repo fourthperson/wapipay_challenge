@@ -41,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "label_confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
     "label_continue": MessageLookupByLibrary.simpleMessage("Continue"),
+    "label_enter_pin": MessageLookupByLibrary.simpleMessage("Enter PIN"),
     "label_go_back": MessageLookupByLibrary.simpleMessage("Go back"),
     "label_home": MessageLookupByLibrary.simpleMessage("Home"),
     "label_language_chinese": MessageLookupByLibrary.simpleMessage("Chinese"),

@@ -1,11 +1,11 @@
 import 'dart:ui';
 
-final Color appWhite = const Color(0xFFFFFFFF);
-final Color appDarkGreen = const Color(0xFF0E2510);
-final Color appLightGreen = const Color(0xFF43B14B);
-final Color appBlack = const Color(0xFF0D0D0D);
-final Color appGrey = const Color(0xFFE6E6E6);
-final Color appLinkGreen = const Color(0xFF005620);
-final Color appInputBackground = const Color(0xFFF2F2F2);
-final Color appInputErrorBackground = const Color(0xFFFFCECC);
-final Color appErrorRed = const Color(0xFFA8200D);
+const Color appWhite = Color(0xFFFFFFFF);
+const Color appDarkGreen = Color(0xFF0E2510);
+const Color appLightGreen = Color(0xFF43B14B);
+const Color appBlack = Color(0xFF0D0D0D);
+const Color appGrey = Color(0xFFE6E6E6);
+const Color appLinkGreen = Color(0xFF005620);
+const Color appInputBackground = Color(0xFFF2F2F2);
+const Color appInputErrorBackground = Color(0xFFFFCECC);
+const Color appErrorRed = Color(0xFFA8200D);

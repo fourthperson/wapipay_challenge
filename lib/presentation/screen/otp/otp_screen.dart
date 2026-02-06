@@ -6,11 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wapipay_challenge/domain/entity/otp_result.dart';
 import 'package:wapipay_challenge/presentation/l10n/generated/l10n.dart';
+import 'package:wapipay_challenge/presentation/navigation/navigation.gr.dart';
 import 'package:wapipay_challenge/presentation/screen/otp/bloc/otp_bloc.dart';
 import 'package:wapipay_challenge/presentation/theme/colors.dart';
 import 'package:wapipay_challenge/presentation/widget/app_bar.dart';
 import 'package:wapipay_challenge/presentation/widget/loader.dart';
 import 'package:wapipay_challenge/presentation/widget/text.dart';
+import 'package:wapipay_challenge/presentation/widget/text_field.dart';
 
 @RoutePage()
 class OtpScreen extends StatefulWidget {
@@ -47,18 +49,6 @@ class _OtpScreenState extends State<OtpScreen> {
   Widget build(BuildContext context) {
     final S strings = S.of(context);
 
-    final PinTheme pinTheme = PinTheme(
-      height: 48,
-      width: 42,
-      textStyle: WPText.textStyleBold.copyWith(color: appBlack, fontSize: 16),
-    );
-
-    final BoxDecoration decoration = BoxDecoration(
-      border: Border.all(color: appInputBackground, width: 2.0),
-      borderRadius: BorderRadius.circular(12),
-      color: appInputBackground,
-    );
-
     return BlocListener<OtpBloc, OtpState>(
       listener: (BuildContext context, OtpState state) {
         if (state.status == OtpStatus.failure) {
@@ -68,8 +58,7 @@ class _OtpScreenState extends State<OtpScreen> {
 
         if (state.status == OtpStatus.success &&
             state.otpResult is SuccessfulOtpResult) {
-          // Handle successful verification (e.g., navigate to Dashboard)
-          // context.router.replaceAll([const DashboardRoute()]);
+          context.router.replace(const PinRoute());
         }
       },
       child: BlocBuilder<OtpBloc, OtpState>(
@@ -125,26 +114,36 @@ class _OtpScreenState extends State<OtpScreen> {
                                               otp: pin,
                                             ),
                                           ),
-                                      defaultPinTheme: pinTheme.copyWith(
-                                        decoration: decoration.copyWith(
-                                          border: Border.all(
-                                            color: appInputBackground,
+                                      defaultPinTheme: WPDashedField.pinTheme
+                                          .copyWith(
+                                            decoration: WPDashedField.decoration
+                                                .copyWith(
+                                                  border: Border.all(
+                                                    color: appInputBackground,
+                                                  ),
+                                                ),
                                           ),
-                                        ),
-                                      ),
-                                      focusedPinTheme: pinTheme.copyWith(
-                                        decoration: decoration.copyWith(
-                                          border: Border.all(color: appBlack),
-                                        ),
-                                      ),
-                                      errorPinTheme: pinTheme.copyWith(
-                                        decoration: decoration.copyWith(
-                                          border: Border.all(
-                                            color: appInputErrorBackground,
+                                      focusedPinTheme: WPDashedField.pinTheme
+                                          .copyWith(
+                                            decoration: WPDashedField.decoration
+                                                .copyWith(
+                                                  border: Border.all(
+                                                    color: appBlack,
+                                                  ),
+                                                ),
                                           ),
-                                          color: appInputErrorBackground,
-                                        ),
-                                      ),
+                                      errorPinTheme: WPDashedField.pinTheme
+                                          .copyWith(
+                                            decoration: WPDashedField.decoration
+                                                .copyWith(
+                                                  border: Border.all(
+                                                    color:
+                                                        appInputErrorBackground,
+                                                  ),
+                                                  color:
+                                                      appInputErrorBackground,
+                                                ),
+                                          ),
                                       errorTextStyle: WPText.textStyleBold
                                           .copyWith(
                                             color: appErrorRed,

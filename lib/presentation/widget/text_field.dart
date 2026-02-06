@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pinput/pinput.dart';
 import 'package:wapipay_challenge/presentation/theme/colors.dart';
 import 'package:wapipay_challenge/presentation/widget/text.dart';
 
@@ -112,6 +113,69 @@ class WPTextField extends StatelessWidget {
                 color: Colors.grey,
                 fontSize: 14,
               ),
+      ),
+    );
+  }
+}
+
+class WPDashedField extends StatelessWidget {
+  final TextEditingController controller;
+  final bool obscureText;
+  final Widget obscuringWidget;
+  final Widget? cursor;
+  final PinTheme? defaultTheme;
+  final PinTheme? focusedTheme;
+  final PinTheme? errorTheme;
+
+  static final PinTheme pinTheme = PinTheme(
+    height: 48,
+    width: 42,
+    textStyle: WPText.textStyleBold.copyWith(color: appBlack, fontSize: 16),
+  );
+
+  static final BoxDecoration decoration = BoxDecoration(
+    border: Border.all(color: appInputBackground, width: 2.0),
+    borderRadius: BorderRadius.circular(12),
+    color: appInputBackground,
+  );
+
+  static final Container defaultObscure = Container(
+    height: 5,
+    width: 5,
+    decoration: BoxDecoration(
+      color: appBlack,
+      borderRadius: BorderRadius.circular(10),
+    ),
+  );
+  static final defaultCursor = Container(
+    color: appLightGreen,
+    width: 1.5,
+    height: 18,
+  );
+
+  const WPDashedField({
+    required this.controller,
+    required this.obscureText,
+    required this.obscuringWidget,
+    this.cursor,
+    this.defaultTheme,
+    this.focusedTheme,
+    this.errorTheme,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Pinput(
+      controller: controller,
+      obscureText: obscureText,
+      obscuringWidget: defaultObscure,
+      cursor: defaultCursor,
+      textInputAction: TextInputAction.done,
+      animationCurve: Curves.linear,
+      defaultPinTheme: defaultTheme,
+      focusedPinTheme: pinTheme.copyWith(
+        decoration: decoration.copyWith(border: Border.all(color: appBlack)),
       ),
     );
   }

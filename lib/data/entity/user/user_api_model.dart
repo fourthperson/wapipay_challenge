@@ -29,4 +29,14 @@ abstract class UserApiModel with _$UserApiModel {
       pin: pin ?? '',
     );
   }
+  
+  factory UserApiModel.fromDomain(User user) {
+    return UserApiModel(
+      id: user.id,
+      phone: user.phone,
+      fullName: user.name,
+      otp: user.otp,
+      pin: user.pin,
+    );
+  }
 }

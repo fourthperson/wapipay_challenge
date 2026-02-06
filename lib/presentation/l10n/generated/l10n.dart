@@ -363,6 +363,16 @@ class S {
   String get label_home {
     return Intl.message('Home', name: 'label_home', desc: '', args: []);
   }
+
+  /// `Enter PIN`
+  String get label_enter_pin {
+    return Intl.message(
+      'Enter PIN',
+      name: 'label_enter_pin',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

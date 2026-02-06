@@ -66,8 +66,10 @@ class MockApiDataSource extends ApiDataSource {
     try {
       await Future.delayed(Duration(milliseconds: _delay));
 
+      phone = phone.replaceAll('+', '');
+
       final List<UserApiModel> users = [];
-      for (final user in _mockUsers) {
+      for (final Map<String, dynamic> user in _mockUsers) {
         users.add(UserApiModel.fromJson(user));
       }
 
