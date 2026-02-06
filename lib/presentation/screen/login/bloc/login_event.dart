@@ -25,6 +25,10 @@ class PhoneChangedEvent extends LoginEvent {
   List<Object?> get props => [phone];
 }
 
+class ValidateFormEvent extends LoginEvent {
+  const ValidateFormEvent();
+}
+
 class ConfirmLoginEvent extends LoginEvent {
   const ConfirmLoginEvent();
 }

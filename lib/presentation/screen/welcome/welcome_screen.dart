@@ -1,14 +1,18 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:wapipay_challenge/presentation/generated/assets.gen.dart';
 import 'package:wapipay_challenge/presentation/l10n/generated/l10n.dart';
 import 'package:wapipay_challenge/presentation/model/welcome_item.dart';
 import 'package:wapipay_challenge/presentation/navigation/navigation.gr.dart';
+import 'package:wapipay_challenge/presentation/screen/language/bloc/language_bloc.dart';
+import 'package:wapipay_challenge/presentation/screen/language/language_list.dart';
 import 'package:wapipay_challenge/presentation/screen/welcome/widget/language_button.dart';
 import 'package:wapipay_challenge/presentation/screen/welcome/widget/welcome_pager_item.dart';
 import 'package:wapipay_challenge/presentation/theme/colors.dart';
+import 'package:wapipay_challenge/presentation/util/functions.dart';
 import 'package:wapipay_challenge/presentation/widget/button.dart';
 import 'package:wapipay_challenge/presentation/widget/text.dart';
 
@@ -35,28 +39,34 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.dispose();
   }
 
-  final List<WelcomeItem> pagerItems = [
-    WelcomeItem(
-      title: S.current.welcome_title_1,
-      subtitle: S.current.welcome_subtitle_1,
-    ),
-    WelcomeItem(
-      title: S.current.welcome_title_2,
-      subtitle: S.current.welcome_subtitle_2,
-    ),
-    WelcomeItem(
-      title: S.current.welcome_title_3,
-      subtitle: S.current.welcome_subtitle_3,
-    ),
-    WelcomeItem(
-      title: S.current.welcome_title_4,
-      subtitle: S.current.welcome_subtitle_4,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
     final S strings = S.of(context);
+
+    final List<WelcomeItem> pagerItems = [
+      WelcomeItem(
+        title: strings.welcome_title_1, // Use the local 'strings' variable
+        subtitle: strings.welcome_subtitle_1,
+      ),
+      WelcomeItem(
+        title: strings.welcome_title_2,
+        subtitle: strings.welcome_subtitle_2,
+      ),
+      WelcomeItem(
+        title: strings.welcome_title_3,
+        subtitle: strings.welcome_subtitle_3,
+      ),
+      WelcomeItem(
+        title: strings.welcome_title_4,
+        subtitle: strings.welcome_subtitle_4,
+      ),
+    ];
+
+    final String currentLang = context
+        .watch<LanguageBloc>()
+        .state
+        .locale
+        .languageCode;
 
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle(
@@ -85,7 +95,14 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   right: 16,
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8, right: 8),
-                    child: LanguageButton(onTap: () {}),
+                    child: LanguageButton(
+                      label: currentLang == 'zh'
+                          ? strings.label_language_chinese
+                          : strings.label_language_english,
+                      onTap: () {
+                        bottomSheet(context, LanguageList());
+                      },
+                    ),
                   ),
                 ),
                 Align(

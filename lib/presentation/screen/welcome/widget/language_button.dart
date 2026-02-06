@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:wapipay_challenge/presentation/l10n/generated/l10n.dart';
 import 'package:wapipay_challenge/presentation/theme/colors.dart';
 import 'package:wapipay_challenge/presentation/widget/text.dart';
 
 class LanguageButton extends StatelessWidget {
+  final String label;
   final void Function()? onTap;
 
-  const LanguageButton({super.key, this.onTap});
+  const LanguageButton({required this.label, super.key, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    final S strings = S.of(context);
-
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
@@ -27,7 +25,7 @@ class LanguageButton extends StatelessWidget {
             children: [
               Icon(Icons.translate_outlined, color: appDarkGreen),
               SizedBox(width: 4),
-              WPText.medium(strings.label_language_english),
+              WPText.medium(label),
             ],
           ),
         ),

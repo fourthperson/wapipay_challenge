@@ -1,10 +1,13 @@
 part of 'login_bloc.dart';
 
+enum LoginStatus { initial, loading, success, failure }
+
 class LoginState extends Equatable {
   final LoginStatus status;
   final Country selectedCountry;
   final String phoneNumber;
   final bool isPhoneValid;
+  final bool showError;
   final String? errorMessage;
   final AuthResult? authResult;
 
@@ -13,6 +16,7 @@ class LoginState extends Equatable {
     this.status = LoginStatus.initial,
     this.phoneNumber = '',
     this.isPhoneValid = false,
+    this.showError = false,
     this.errorMessage,
     this.authResult,
   });
@@ -22,6 +26,7 @@ class LoginState extends Equatable {
     Country? selectedCountry,
     String? phoneNumber,
     bool? isPhoneValid,
+    bool? showError,
     String? errorMessage,
     AuthResult? authResult,
   }) {
@@ -30,6 +35,7 @@ class LoginState extends Equatable {
       selectedCountry: selectedCountry ?? this.selectedCountry,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       isPhoneValid: isPhoneValid ?? this.isPhoneValid,
+      showError: showError ?? this.showError,
       errorMessage: errorMessage ?? this.errorMessage,
       authResult: authResult ?? this.authResult,
     );
@@ -41,6 +47,7 @@ class LoginState extends Equatable {
     selectedCountry,
     phoneNumber,
     isPhoneValid,
+    showError,
     errorMessage,
     authResult,
   ];

@@ -34,5 +34,11 @@ class OtpState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [status, remainingTime, canResend, errorMessage, otpResult];
+  List<Object?> get props => [
+    status,
+    remainingTime,
+    canResend,
+    errorMessage,
+    otpResult,
+  ];
 }

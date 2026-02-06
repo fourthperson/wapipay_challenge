@@ -9,4 +9,7 @@ class Config {
   );
 
   static int otpTimeMinutes = 1;
+
+  static String privacyPolicyUrl = 'https://wapipay.com/privacy_policy';
+  static String termsOfServiceUrl = 'https://wapipay.com/terms_of_service';
 }

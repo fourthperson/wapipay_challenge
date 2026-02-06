@@ -114,10 +114,10 @@ class S {
     );
   }
 
-  /// `Chinese`
+  /// `简体中文`
   String get label_language_chinese {
     return Intl.message(
-      'Chinese',
+      '简体中文',
       name: 'label_language_chinese',
       desc: '',
       args: [],
@@ -373,13 +373,76 @@ class S {
       args: [],
     );
   }
+
+  /// `Forgot your PIN?`
+  String get label_forgot_pin {
+    return Intl.message(
+      'Forgot your PIN?',
+      name: 'label_forgot_pin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select your Language`
+  String get label_select_your_language {
+    return Intl.message(
+      'Select your Language',
+      name: 'label_select_your_language',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `An error occurred`
+  String get title_an_error_occurred {
+    return Intl.message(
+      'An error occurred',
+      name: 'title_an_error_occurred',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `That didn't go as planned. It's on us - please try again in a moment`
+  String get an_error_cooured_rationale {
+    return Intl.message(
+      'That didn\'t go as planned. It\'s on us - please try again in a moment',
+      name: 'an_error_cooured_rationale',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Phone number not registered`
+  String get error_phone_number_not_registered {
+    return Intl.message(
+      'Phone number not registered',
+      name: 'error_phone_number_not_registered',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `This number does not have an account with us. Please proceed to registration`
+  String get phone_number_unregistered_rationale {
+    return Intl.message(
+      'This number does not have an account with us. Please proceed to registration',
+      name: 'phone_number_unregistered_rationale',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
   const AppLocalizationDelegate();
 
   List<Locale> get supportedLocales {
-    return const <Locale>[Locale.fromSubtags(languageCode: 'en')];
+    return const <Locale>[
+      Locale.fromSubtags(languageCode: 'en'),
+      Locale.fromSubtags(languageCode: 'zh'),
+    ];
   }
 
   @override

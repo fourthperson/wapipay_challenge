@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wapipay_challenge/domain/entity/auth_result.dart';
 import 'package:wapipay_challenge/domain/entity/country.dart';
 import 'package:wapipay_challenge/domain/use_case/phone_check_use_case.dart';
-import 'package:wapipay_challenge/presentation/screen/login/bloc/login_status.dart';
 import 'package:wapipay_challenge/presentation/util/config.dart';
 import 'package:wapipay_challenge/presentation/util/functions.dart';
 
@@ -19,6 +18,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       super(LoginState(selectedCountry: Config.defaultCountry)) {
     on<CountryChangedEvent>(_onCountryChanged);
     on<PhoneChangedEvent>(_onPhoneChanged);
+    on<ValidateFormEvent>(_onValidateForm);
     on<ConfirmLoginEvent>(_onConfirmLogin);
   }
 
@@ -37,13 +37,16 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final bool isValid = isPhoneValid(event.phone, state.selectedCountry.iso);
     emit(
       state.copyWith(
-        phoneNumber: isValid
-            ? phoneToE164(event.phone, state.selectedCountry.iso)
-            : event.phone,
+        phoneNumber: event.phone,
         isPhoneValid: isValid,
+        showError: false,
         status: LoginStatus.initial,
       ),
     );
+  }
+
+  void _onValidateForm(ValidateFormEvent event, Emitter<LoginState> emit) {
+    emit(state.copyWith(showError: true));
   }
 
   Future<void> _onConfirmLogin(
@@ -51,7 +54,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     Emitter<LoginState> emit,
   ) async {
     emit(state.copyWith(status: LoginStatus.loading));
-
     final String formattedPhone = phoneToE164(
       state.phoneNumber,
       state.selectedCountry.iso,
@@ -61,17 +63,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       final AuthResult result = await _phoneCheckUseCase.invoke(
         phone: formattedPhone,
       );
-
       if (result is SuccessLoginResult || result is UnregisteredLoginResult) {
         emit(state.copyWith(status: LoginStatus.success, authResult: result));
       } else {
-        emit(
-          state.copyWith(
-            status: LoginStatus.failure,
-            errorMessage:
-                'Authentication failed. Please check your connection.',
-          ),
-        );
+        emit(state.copyWith(status: LoginStatus.failure));
       }
     } catch (e) {
       emit(

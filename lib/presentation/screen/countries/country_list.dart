@@ -43,61 +43,59 @@ class _CountryListState extends State<CountryList> {
   Widget build(BuildContext context) {
     final S strings = S.of(context);
 
-    return SafeArea(
-      child: Container(
-        decoration: BoxDecoration(
-          color: appWhite,
-          borderRadius: BorderRadius.only(
-            topRight: Radius.circular(32),
-            topLeft: Radius.circular(32),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        color: appWhite,
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(32),
+          topLeft: Radius.circular(32),
         ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: BlocBuilder<CountryBloc, CountriesState>(
-            builder: (context, state) {
-              return Column(
-                children: [
-                  Row(
-                    children: [
-                      Expanded(
-                        child: WPTextField(
-                          controller: searchController,
-                          hint: strings.search_country,
-                          borderRadius: 32,
-                          onTextChanged: (s) => context.read<CountryBloc>().add(
-                            FilterCountriesEvent(query: s),
-                          ),
-                          prefixIcon: const Icon(Icons.search_outlined),
-                          suffixIcon: searchController.text.isNotEmpty
-                              ? IconButton(
-                                  onPressed: () {
-                                    searchController.clear();
-                                    context.read<CountryBloc>().add(
-                                      FilterCountriesEvent(query: ''),
-                                    );
-                                  },
-                                  icon: const Icon(Icons.close),
-                                )
-                              : null,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        child: BlocBuilder<CountryBloc, CountriesState>(
+          builder: (context, state) {
+            return Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: WPTextField(
+                        controller: searchController,
+                        hint: strings.search_country,
+                        borderRadius: 32,
+                        onTextChanged: (s) => context.read<CountryBloc>().add(
+                          FilterCountriesEvent(query: s),
                         ),
+                        prefixIcon: const Icon(Icons.search_outlined),
+                        suffixIcon: searchController.text.isNotEmpty
+                            ? IconButton(
+                                onPressed: () {
+                                  searchController.clear();
+                                  context.read<CountryBloc>().add(
+                                    FilterCountriesEvent(query: ''),
+                                  );
+                                },
+                                icon: const Icon(Icons.close),
+                              )
+                            : null,
                       ),
-                      const SizedBox(width: 8),
-                      GestureDetector(
-                        onTap: () => Navigator.of(context).pop(),
-                        child: WPText.medium(
-                          strings.label_cancel,
-                          color: appLightGreen,
-                        ),
+                    ),
+                    const SizedBox(width: 8),
+                    GestureDetector(
+                      onTap: () => Navigator.of(context).pop(),
+                      child: WPText.medium(
+                        strings.label_cancel,
+                        color: appLightGreen,
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Expanded(child: _buildContent(state)),
-                ],
-              );
-            },
-          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 8),
+                Expanded(child: _buildContent(state)),
+              ],
+            );
+          },
         ),
       ),
     );

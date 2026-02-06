@@ -1,3 +1,4 @@
+import 'package:animate_do/animate_do.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -9,8 +10,8 @@ import 'package:wapipay_challenge/presentation/navigation/navigation.gr.dart';
 import 'package:wapipay_challenge/presentation/screen/countries/bloc/country_bloc.dart';
 import 'package:wapipay_challenge/presentation/screen/countries/country_list.dart';
 import 'package:wapipay_challenge/presentation/screen/login/bloc/login_bloc.dart';
-import 'package:wapipay_challenge/presentation/screen/login/bloc/login_status.dart';
 import 'package:wapipay_challenge/presentation/theme/colors.dart';
+import 'package:wapipay_challenge/presentation/util/config.dart';
 import 'package:wapipay_challenge/presentation/util/functions.dart';
 import 'package:wapipay_challenge/presentation/widget/alert_dialog.dart';
 import 'package:wapipay_challenge/presentation/widget/app_bar.dart';
@@ -28,8 +29,10 @@ class LoginScreen extends StatefulWidget {
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends State<LoginScreen>
+    with SingleTickerProviderStateMixin {
   late TextEditingController phoneController;
+  late AnimationController shakeController;
 
   bool termsAccepted = false;
   bool privacyAccepted = false;
@@ -38,11 +41,16 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     phoneController = TextEditingController();
+    shakeController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 200),
+    );
   }
 
   @override
   void dispose() {
     phoneController.dispose();
+    shakeController.dispose();
     super.dispose();
   }
 
@@ -53,7 +61,16 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocListener<LoginBloc, LoginState>(
       listener: (context, state) {
         if (state.status == LoginStatus.failure) {
-          _showErrorDialog(context, strings, true);
+          alertDialog(
+            context,
+            WPAlert.error(
+              context: context,
+              title: strings.title_an_error_occurred,
+              message: strings.an_error_cooured_rationale,
+              onRetry: () =>
+                  context.read<LoginBloc>().add(const ConfirmLoginEvent()),
+            ),
+          );
         }
 
         if (state.status == LoginStatus.success && state.authResult != null) {
@@ -61,7 +78,16 @@ class _LoginScreenState extends State<LoginScreen> {
           if (result is SuccessLoginResult) {
             context.router.push(OtpRoute(phone: state.phoneNumber));
           } else if (result is UnregisteredLoginResult) {
-            _showErrorDialog(context, strings, false);
+            alertDialog(
+              context,
+              WPAlert.error(
+                context: context,
+                title: strings.error_phone_number_not_registered,
+                message: strings.phone_number_unregistered_rationale,
+                onRetry: () =>
+                    context.read<LoginBloc>().add(const ConfirmLoginEvent()),
+              ),
+            );
           }
         }
       },
@@ -109,6 +135,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                   const SizedBox(height: 16),
                                   WPTextField(
                                     controller: phoneController,
+                                    errored:
+                                        state.showError && !state.isPhoneValid,
                                     textInputType: TextInputType.phone,
                                     hint: strings.label_phone_number,
                                     onTextChanged: (String p) => context
@@ -121,11 +149,15 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                       child: WPText.medium(
                                         state.selectedCountry.code,
+                                        color:
+                                            state.showError &&
+                                                !state.isPhoneValid
+                                            ? appErrorRed
+                                            : appBlack,
                                       ),
                                     ),
                                   ),
-                                  if (phoneController.text.isNotEmpty &&
-                                      !state.isPhoneValid)
+                                  if (state.showError && !state.isPhoneValid)
                                     WPText.medium(
                                       strings.validation_invalid_phone,
                                       color: appErrorRed,
@@ -172,20 +204,33 @@ class _LoginScreenState extends State<LoginScreen> {
     bool isFormValid,
     S strings,
   ) {
+    final bool hasMinimumLength = state.phoneNumber.length >= 8;
+    final bool showCheckboxes = state.isPhoneValid && !state.showError;
+
     return Column(
       children: [
-        if (state.isPhoneValid) ...[
-          _buildCheckbox(
-            label: strings.i_accept_the,
-            link: strings.terms_of_service,
-            value: termsAccepted,
-            onChanged: (v) => setState(() => termsAccepted = v!),
-          ),
-          _buildCheckbox(
-            label: strings.i_accept_the,
-            link: strings.privacy_policy,
-            value: privacyAccepted,
-            onChanged: (v) => setState(() => privacyAccepted = v!),
+        if (showCheckboxes) ...[
+          ShakeX(
+            manualTrigger: true,
+            controller: (AnimationController c) => shakeController = c,
+            child: Column(
+              children: [
+                _checkBox(
+                  label: strings.i_accept_the,
+                  link: strings.terms_of_service,
+                  value: termsAccepted,
+                  onChanged: (v) => setState(() => termsAccepted = v!),
+                  onLinkTap: () => launchUrl(Config.termsOfServiceUrl),
+                ),
+                _checkBox(
+                  label: strings.i_accept_the,
+                  link: strings.privacy_policy,
+                  value: privacyAccepted,
+                  onChanged: (v) => setState(() => privacyAccepted = v!),
+                  onLinkTap: () => launchUrl(Config.privacyPolicyUrl),
+                ),
+              ],
+            ),
           ),
         ],
         Container(
@@ -193,9 +238,9 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.all(16),
           child: WPButton.primary(
             strings.label_continue,
-            isActive: isFormValid,
-            onTap: isFormValid
-                ? () => _showConfirmationDialog(context, state, strings)
+            isActive: hasMinimumLength || isFormValid,
+            onTap: hasMinimumLength || isFormValid
+                ? () => _handleContinueTap(context, state, strings, isFormValid)
                 : null,
           ),
         ),
@@ -203,15 +248,37 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _handleContinueTap(
+    BuildContext context,
+    LoginState state,
+    S strings,
+    bool isFormValid,
+  ) {
+    if (!state.isPhoneValid) {
+      // trigger phone validation, will show invalid if it is
+      context.read<LoginBloc>().add(const ValidateFormEvent());
+    } else if (!isFormValid) {
+      // phone valid, terms & privacy not checked
+      shakeController.forward(from: 0.0);
+    } else {
+      // everything is alright
+      _showConfirmationDialog(context, state, strings);
+    }
+  }
+
   void _showConfirmationDialog(
     BuildContext context,
     LoginState state,
     S strings,
   ) {
+    final String phone = phoneToE164(
+      state.phoneNumber,
+      state.selectedCountry.iso,
+    );
     alertDialog(
       context,
       WPAlert(
-        title: state.phoneNumber,
+        title: phone,
         message: strings.number_confirmation_rationale,
         negativeButton: strings.label_go_back,
         onPositiveTap: () {
@@ -223,31 +290,11 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  // todo create factories for different WPAlert Types
-  void _showErrorDialog(BuildContext context, S strings, bool isError) {
-    alertDialog(
-      context,
-      WPAlert(
-        title: isError ? 'An error occurred' : 'Phone Number Not Registered',
-        message: isError
-            ? "That didn't go as planned. It's on us - please try again in a moment"
-            : 'This number does not have an account with us. Please proceed to registration',
-        negativeButton: isError ? strings.label_cancel : 'Try another number',
-        onPositiveTap: () {
-          context.read<LoginBloc>().add(const ConfirmLoginEvent());
-        },
-        positiveButton: isError
-            ? strings.label_try_again
-            : strings.label_register,
-        icon: Icon(isError ? Icons.info_outline : Icons.error_outline_outlined),
-      ),
-    );
-  }
-
-  Widget _buildCheckbox({
+  Widget _checkBox({
     required String label,
     required String link,
     required bool value,
+    required VoidCallback onLinkTap,
     required ValueChanged<bool?> onChanged,
   }) {
     return Row(
@@ -257,13 +304,20 @@ class _LoginScreenState extends State<LoginScreen> {
           onChanged: onChanged,
           activeColor: appLightGreen,
           checkColor: appWhite,
+          visualDensity: VisualDensity.compact,
           side: BorderSide(color: appGrey, width: 2),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-          visualDensity: VisualDensity.compact,
         ),
-        WPText.medium(label),
-        WPText.link(link, color: appLightGreen),
+        GestureDetector(
+          onTap: () => onChanged.call(!value),
+          child: WPText.medium(label),
+        ),
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onTap: () => onLinkTap(),
+          child: WPText.link(link, color: appLightGreen),
+        ),
       ],
     );
   }

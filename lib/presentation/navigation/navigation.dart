@@ -4,6 +4,12 @@ import 'package:wapipay_challenge/presentation/navigation/navigation.gr.dart';
 @AutoRouterConfig()
 class WapiPayRouter extends RootStackRouter {
   @override
+  RouteType get defaultRouteType => RouteType.custom(
+    transitionsBuilder: TransitionsBuilders.slideLeft,
+    duration: const Duration(milliseconds: 300),
+  );
+
+  @override
   List<AutoRoute> get routes => [
     AutoRoute(page: WelcomeRoute.page, initial: true),
     AutoRoute(page: LoginRoute.page),
