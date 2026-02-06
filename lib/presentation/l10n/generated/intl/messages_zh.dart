@@ -29,6 +29,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "an_error_cooured_rationale": MessageLookupByLibrary.simpleMessage(
       "操作未成功。这是我们的问题 - 请稍后再试",
     ),
+    "confirm_logout_rationale": MessageLookupByLibrary.simpleMessage(
+      "您确定要退出登录吗？",
+    ),
     "enter_otp": MessageLookupByLibrary.simpleMessage("输入验证码"),
     "enter_otp_rationale": m0,
     "enter_phone_number_rationale": MessageLookupByLibrary.simpleMessage(
@@ -50,11 +53,13 @@ class MessageLookup extends MessageLookupByLibrary {
     "label_language_chinese": MessageLookupByLibrary.simpleMessage("简体中文"),
     "label_language_english": MessageLookupByLibrary.simpleMessage("English"),
     "label_login": MessageLookupByLibrary.simpleMessage("登录"),
+    "label_logout": MessageLookupByLibrary.simpleMessage("退出登录"),
     "label_phone_number": MessageLookupByLibrary.simpleMessage("手机号码"),
     "label_register": MessageLookupByLibrary.simpleMessage("注册"),
     "label_select_country": MessageLookupByLibrary.simpleMessage("选择国家"),
     "label_select_your_language": MessageLookupByLibrary.simpleMessage("选择语言"),
     "label_try_again": MessageLookupByLibrary.simpleMessage("重试"),
+    "label_welcome": MessageLookupByLibrary.simpleMessage("欢迎，"),
     "number_confirmation_rationale": MessageLookupByLibrary.simpleMessage(
       "该号码是否正确？我们将向其发送确认码",
     ),
@@ -67,6 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "search_country": MessageLookupByLibrary.simpleMessage("搜索国家/地区"),
     "terms_of_service": MessageLookupByLibrary.simpleMessage("服务条款"),
     "title_an_error_occurred": MessageLookupByLibrary.simpleMessage("发生错误"),
+    "title_confirm_logout": MessageLookupByLibrary.simpleMessage("确认退出"),
     "validation_invalid_otp": MessageLookupByLibrary.simpleMessage("验证码错误，请重试"),
     "validation_invalid_phone": MessageLookupByLibrary.simpleMessage(
       "请输入有效的手机号码",

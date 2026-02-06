@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wapipay_challenge/domain/use_case/user_get_use_case.dart';
 
 part 'pin_event.dart';
+
 part 'pin_state.dart';
 
 class PinBloc extends Bloc<PinEvent, PinState> {
@@ -21,7 +22,6 @@ class PinBloc extends Bloc<PinEvent, PinState> {
     emit(state.copyWith(status: PinStatus.loading));
 
     try {
-      // 1. Fetch the stored user locally (from repo/shared prefs via UseCase)
       final user = await _userGetUseCase.invoke();
 
       if (user == null) {
@@ -34,7 +34,6 @@ class PinBloc extends Bloc<PinEvent, PinState> {
         return;
       }
 
-      // 2. Compare the entered PIN with the one from the UseCase
       if (event.enteredPin == user.pin) {
         emit(state.copyWith(status: PinStatus.success));
       } else {

@@ -23,6 +23,7 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
        _userSetUseCase = userSetUseCase,
        super(const OtpState()) {
     on<OtpTimerTickedEvent>(_onTimerTicked);
+    on<OtpInputChangedEvent>(_onInputChanged);
     on<OtpVerifySubmittedEvent>(_onVerifySubmitted);
     on<OtpResendRequestedEvent>(_onResendRequested);
 
@@ -50,6 +51,10 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
     );
   }
 
+  void _onInputChanged(OtpInputChangedEvent event, Emitter<OtpState> emit) {
+    emit(state.copyWith(otpResult: () => null, status: OtpStatus.initial));
+  }
+
   Future<void> _onVerifySubmitted(
     OtpVerifySubmittedEvent event,
     Emitter<OtpState> emit,
@@ -63,15 +68,13 @@ class OtpBloc extends Bloc<OtpEvent, OtpState> {
       );
 
       if (result is SuccessfulOtpResult) {
-        // save user locally
         await _userSetUseCase.invoke(user: result.user);
-        emit(state.copyWith(status: OtpStatus.success, otpResult: result));
+        emit(
+          state.copyWith(status: OtpStatus.success, otpResult: () => result),
+        );
       } else if (result is IncorrectOtpResult) {
         emit(
-          state.copyWith(
-            status: OtpStatus.failure,
-            errorMessage: 'Incorrect OTP',
-          ),
+          state.copyWith(status: OtpStatus.success, otpResult: () => result),
         );
       } else {
         emit(

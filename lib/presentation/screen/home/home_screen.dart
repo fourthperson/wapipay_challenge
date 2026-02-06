@@ -5,6 +5,8 @@ import 'package:wapipay_challenge/presentation/l10n/generated/l10n.dart';
 import 'package:wapipay_challenge/presentation/navigation/navigation.gr.dart';
 import 'package:wapipay_challenge/presentation/screen/home/bloc/home_bloc.dart';
 import 'package:wapipay_challenge/presentation/theme/colors.dart';
+import 'package:wapipay_challenge/presentation/util/functions.dart';
+import 'package:wapipay_challenge/presentation/widget/alert_dialog.dart';
 import 'package:wapipay_challenge/presentation/widget/app_bar.dart';
 import 'package:wapipay_challenge/presentation/widget/button.dart';
 import 'package:wapipay_challenge/presentation/widget/loader.dart';
@@ -22,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    // Fetch user data as soon as the screen is initialized
     context.read<HomeBloc>().add(HomeStartedEvent());
   }
 
@@ -48,19 +49,35 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const Center(child: WPLoader());
                 }
 
-                final String userName = state.user?.name ?? '';
-
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    WPText.light('Welcome,', color: appBlack, fontSize: 20),
-                    WPText.bold(userName, color: appBlack, fontSize: 36),
+                    WPText.light(
+                      strings.label_welcome,
+                      color: appBlack,
+                      fontSize: 20,
+                    ),
+                    WPText.bold(
+                      state.user?.name ?? '',
+                      color: appBlack,
+                      fontSize: 36,
+                    ),
                     const SizedBox(height: 24),
                     WPButton.primary(
-                      'Logout',
-                      onTap: () =>
-                          context.read<HomeBloc>().add(HomeLogoutEvent()),
+                      strings.label_logout,
+                      onTap: () {
+                        alertDialog(
+                          context,
+                          WPAlert.confirm(
+                            context: context,
+                            title: strings.title_confirm_logout,
+                            message: strings.confirm_logout_rationale,
+                            onConfirm: () =>
+                                context.read<HomeBloc>().add(HomeLogoutEvent()),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 );

@@ -118,14 +118,23 @@ class WPTextField extends StatelessWidget {
   }
 }
 
-class WPDashedField extends StatelessWidget {
+class WPPinField extends StatelessWidget {
+  const WPPinField({
+    required this.controller,
+    required this.length,
+    this.onCompleted,
+    this.onChanged,
+    this.forceErrorState = false,
+    this.obscureText = false,
+    super.key,
+  });
+
   final TextEditingController controller;
+  final int length;
+  final ValueChanged<String>? onCompleted;
+  final ValueChanged<String>? onChanged;
+  final bool forceErrorState;
   final bool obscureText;
-  final Widget obscuringWidget;
-  final Widget? cursor;
-  final PinTheme? defaultTheme;
-  final PinTheme? focusedTheme;
-  final PinTheme? errorTheme;
 
   static final PinTheme pinTheme = PinTheme(
     height: 48,
@@ -139,43 +148,50 @@ class WPDashedField extends StatelessWidget {
     color: appInputBackground,
   );
 
-  static final Container defaultObscure = Container(
-    height: 5,
-    width: 5,
-    decoration: BoxDecoration(
-      color: appBlack,
-      borderRadius: BorderRadius.circular(10),
-    ),
-  );
-  static final defaultCursor = Container(
-    color: appLightGreen,
-    width: 1.5,
-    height: 18,
-  );
-
-  const WPDashedField({
-    required this.controller,
-    required this.obscureText,
-    required this.obscuringWidget,
-    this.cursor,
-    this.defaultTheme,
-    this.focusedTheme,
-    this.errorTheme,
-    super.key,
-  });
-
   @override
   Widget build(BuildContext context) {
     return Pinput(
+      length: length,
       controller: controller,
       obscureText: obscureText,
-      obscuringWidget: defaultObscure,
-      cursor: defaultCursor,
+      forceErrorState: forceErrorState,
+      onCompleted: onCompleted,
+      onChanged: onChanged,
       textInputAction: TextInputAction.done,
       animationCurve: Curves.linear,
-      defaultPinTheme: defaultTheme,
+
+      cursor: Container(
+        color: forceErrorState ? appErrorRed : appLightGreen,
+        width: 1.5,
+        height: 18,
+      ),
+
+      obscuringWidget: Container(
+        height: 8,
+        width: 8,
+        decoration: const BoxDecoration(
+          color: appBlack,
+          shape: BoxShape.circle,
+        ),
+      ),
+
+      defaultPinTheme: pinTheme.copyWith(
+        decoration: decoration.copyWith(
+          border: Border.all(color: appInputBackground),
+        ),
+      ),
       focusedPinTheme: pinTheme.copyWith(
         decoration: decoration.copyWith(border: Border.all(color: appBlack)),
+      ),
+      errorPinTheme: pinTheme.copyWith(
+        decoration: decoration.copyWith(
+          border: Border.all(color: appInputErrorBackground),
+          color: appInputErrorBackground,
+        ),
+      ),
+      errorTextStyle: WPText.textStyleBold.copyWith(
+        color: appErrorRed,
+        fontSize: 16,
       ),
     );
   }

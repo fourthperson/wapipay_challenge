@@ -41,5 +41,9 @@
   "title_an_error_occurred": "发生错误",
   "an_error_cooured_rationale": "操作未成功。这是我们的问题 - 请稍后再试",
   "error_phone_number_not_registered": "手机号码未注册",
-  "phone_number_unregistered_rationale": "该号码尚未注册账户。请前往注册"
+  "phone_number_unregistered_rationale": "该号码尚未注册账户。请前往注册",
+  "title_confirm_logout": "确认退出",
+  "confirm_logout_rationale": "您确定要退出登录吗？",
+  "label_welcome": "欢迎，",
+  "label_logout": "退出登录"
 }

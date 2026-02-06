@@ -55,5 +55,9 @@
   "title_an_error_occurred": "An error occurred",
   "an_error_cooured_rationale": "That didn't go as planned. It's on us - please try again in a moment",
   "error_phone_number_not_registered": "Phone number not registered",
-  "phone_number_unregistered_rationale": "This number does not have an account with us. Please proceed to registration"
+  "phone_number_unregistered_rationale": "This number does not have an account with us. Please proceed to registration",
+  "title_confirm_logout": "Confirm Logout",
+  "confirm_logout_rationale": "Are you sure you want to log out?",
+  "label_welcome": "Welcome,",
+  "label_logout": "Logout"
 }

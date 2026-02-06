@@ -5,6 +5,7 @@ import 'package:wapipay_challenge/domain/use_case/user_clear_use_case.dart';
 import 'package:wapipay_challenge/domain/use_case/user_get_use_case.dart';
 
 part 'home_event.dart';
+
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {

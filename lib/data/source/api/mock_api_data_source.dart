@@ -69,11 +69,13 @@ class MockApiDataSource extends ApiDataSource {
       phone = phone.replaceAll('+', '');
 
       final List<UserApiModel> users = [];
-      for (final Map<String, dynamic> user in _mockUsers) {
+      for (int i = 0; i < _mockUsers.length; i++) {
+        final Map<String, dynamic> user = _mockUsers[i];
         users.add(UserApiModel.fromJson(user));
       }
 
-      for (final UserApiModel user in users) {
+      for (int i = 0; i < users.length; i++) {
+        final UserApiModel user = users[i];
         if (user.phone == phone && user.otp == otp) {
           return SuccessfulOtpResult(user: user.toDomain());
         }

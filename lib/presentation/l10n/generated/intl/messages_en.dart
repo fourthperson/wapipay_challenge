@@ -29,6 +29,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "an_error_cooured_rationale": MessageLookupByLibrary.simpleMessage(
       "That didn\'t go as planned. It\'s on us - please try again in a moment",
     ),
+    "confirm_logout_rationale": MessageLookupByLibrary.simpleMessage(
+      "Are you sure you want to log out?",
+    ),
     "enter_otp": MessageLookupByLibrary.simpleMessage("Enter your OTP"),
     "enter_otp_rationale": m0,
     "enter_phone_number_rationale": MessageLookupByLibrary.simpleMessage(
@@ -56,6 +59,7 @@ class MessageLookup extends MessageLookupByLibrary {
     "label_language_chinese": MessageLookupByLibrary.simpleMessage("简体中文"),
     "label_language_english": MessageLookupByLibrary.simpleMessage("English"),
     "label_login": MessageLookupByLibrary.simpleMessage("Login"),
+    "label_logout": MessageLookupByLibrary.simpleMessage("Logout"),
     "label_phone_number": MessageLookupByLibrary.simpleMessage("Phone number"),
     "label_register": MessageLookupByLibrary.simpleMessage("Register"),
     "label_select_country": MessageLookupByLibrary.simpleMessage(
@@ -65,6 +69,7 @@ class MessageLookup extends MessageLookupByLibrary {
       "Select your Language",
     ),
     "label_try_again": MessageLookupByLibrary.simpleMessage("Try again"),
+    "label_welcome": MessageLookupByLibrary.simpleMessage("Welcome,"),
     "number_confirmation_rationale": MessageLookupByLibrary.simpleMessage(
       "Is this number correct? We\'ll send you a confirmation code there",
     ),
@@ -82,6 +87,9 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "title_an_error_occurred": MessageLookupByLibrary.simpleMessage(
       "An error occurred",
+    ),
+    "title_confirm_logout": MessageLookupByLibrary.simpleMessage(
+      "Confirm Logout",
     ),
     "validation_invalid_otp": MessageLookupByLibrary.simpleMessage(
       "Incorrect OTP. Please try again",

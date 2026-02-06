@@ -22,14 +22,15 @@ class OtpState extends Equatable {
     int? remainingTime,
     bool? canResend,
     String? errorMessage,
-    OtpResult? otpResult,
+    // Using a "wrapped" null to allow clearing the result
+    OtpResult? Function()? otpResult,
   }) {
     return OtpState(
       status: status ?? this.status,
       remainingTime: remainingTime ?? this.remainingTime,
       canResend: canResend ?? this.canResend,
       errorMessage: errorMessage ?? this.errorMessage,
-      otpResult: otpResult ?? this.otpResult,
+      otpResult: otpResult != null ? otpResult() : this.otpResult,
     );
   }
 

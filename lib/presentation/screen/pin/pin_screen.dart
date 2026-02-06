@@ -1,7 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinput/pinput.dart';
 import 'package:wapipay_challenge/presentation/l10n/generated/l10n.dart';
 import 'package:wapipay_challenge/presentation/navigation/navigation.gr.dart';
 import 'package:wapipay_challenge/presentation/screen/pin/bloc/pin_bloc.dart';
@@ -88,48 +87,15 @@ class _PinScreenState extends State<PinScreen> {
                                   textAlign: TextAlign.center,
                                 ),
                                 const SizedBox(height: 36),
-                                Pinput(
+                                WPPinField(
+                                  length: 4,
                                   controller: pinController,
                                   obscureText: true,
                                   onCompleted: (String pin) => context
                                       .read<PinBloc>()
                                       .add(PinSubmittedEvent(pin)),
-                                  cursor: Container(
-                                    color: appLightGreen,
-                                    width: 1.5,
-                                    height: 18,
-                                  ),
-                                  obscuringWidget: Container(
-                                    height: 5,
-                                    width: 5,
-                                    decoration: BoxDecoration(
-                                      color: appBlack,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                  textInputAction: TextInputAction.done,
-                                  animationCurve: Curves.linear,
-                                  defaultPinTheme: WPDashedField.pinTheme
-                                      .copyWith(
-                                        decoration: WPDashedField.decoration
-                                            .copyWith(
-                                              border: Border.all(
-                                                color: appInputBackground,
-                                              ),
-                                            ),
-                                      ),
-                                  focusedPinTheme: WPDashedField.pinTheme
-                                      .copyWith(
-                                        decoration: WPDashedField.decoration
-                                            .copyWith(
-                                              border: Border.all(
-                                                color: appBlack,
-                                              ),
-                                            ),
-                                      ),
                                 ),
                                 const SizedBox(height: 36),
-                                // Custom Keyboard
                                 WPKeyboard(
                                   delete: () {
                                     if (pinController.text.isNotEmpty) {

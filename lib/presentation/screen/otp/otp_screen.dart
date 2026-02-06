@@ -3,12 +3,13 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pinput/pinput.dart';
 import 'package:wapipay_challenge/domain/entity/otp_result.dart';
 import 'package:wapipay_challenge/presentation/l10n/generated/l10n.dart';
 import 'package:wapipay_challenge/presentation/navigation/navigation.gr.dart';
 import 'package:wapipay_challenge/presentation/screen/otp/bloc/otp_bloc.dart';
 import 'package:wapipay_challenge/presentation/theme/colors.dart';
+import 'package:wapipay_challenge/presentation/util/functions.dart';
+import 'package:wapipay_challenge/presentation/widget/alert_dialog.dart';
 import 'package:wapipay_challenge/presentation/widget/app_bar.dart';
 import 'package:wapipay_challenge/presentation/widget/loader.dart';
 import 'package:wapipay_challenge/presentation/widget/text.dart';
@@ -52,8 +53,21 @@ class _OtpScreenState extends State<OtpScreen> {
     return BlocListener<OtpBloc, OtpState>(
       listener: (BuildContext context, OtpState state) {
         if (state.status == OtpStatus.failure) {
-          // Todo show relevant WPAlert
           otpController.clear();
+          alertDialog(
+            context,
+            WPAlert.error(
+              context: context,
+              title: strings.title_an_error_occurred,
+              message: strings.an_error_cooured_rationale,
+              onRetry: () => context.read<OtpBloc>().add(
+                OtpVerifySubmittedEvent(
+                  phone: widget.phone,
+                  otp: otpController.text.trim(),
+                ),
+              ),
+            ),
+          );
         }
 
         if (state.status == OtpStatus.success &&
@@ -94,63 +108,27 @@ class _OtpScreenState extends State<OtpScreen> {
                                   crossAxisAlignment:
                                       CrossAxisAlignment.stretch,
                                   children: [
-                                    Pinput(
+                                    WPPinField(
                                       length: 6,
-                                      forceErrorState: incorrect,
-                                      cursor: Container(
-                                        color: incorrect
-                                            ? appErrorRed
-                                            : appLightGreen,
-                                        width: 1.5,
-                                        height: 18,
-                                      ),
                                       controller: otpController,
-                                      textInputAction: TextInputAction.done,
-                                      animationCurve: Curves.linear,
-                                      onCompleted: (String pin) =>
+                                      forceErrorState: incorrect,
+                                      onChanged: (s) {
+                                        if (incorrect) {
+                                          context.read<OtpBloc>().add(
+                                            const OtpInputChangedEvent(),
+                                          );
+                                        }
+                                      },
+                                      onCompleted: (pin) =>
                                           context.read<OtpBloc>().add(
                                             OtpVerifySubmittedEvent(
                                               phone: widget.phone,
                                               otp: pin,
                                             ),
                                           ),
-                                      defaultPinTheme: WPDashedField.pinTheme
-                                          .copyWith(
-                                            decoration: WPDashedField.decoration
-                                                .copyWith(
-                                                  border: Border.all(
-                                                    color: appInputBackground,
-                                                  ),
-                                                ),
-                                          ),
-                                      focusedPinTheme: WPDashedField.pinTheme
-                                          .copyWith(
-                                            decoration: WPDashedField.decoration
-                                                .copyWith(
-                                                  border: Border.all(
-                                                    color: appBlack,
-                                                  ),
-                                                ),
-                                          ),
-                                      errorPinTheme: WPDashedField.pinTheme
-                                          .copyWith(
-                                            decoration: WPDashedField.decoration
-                                                .copyWith(
-                                                  border: Border.all(
-                                                    color:
-                                                        appInputErrorBackground,
-                                                  ),
-                                                  color:
-                                                      appInputErrorBackground,
-                                                ),
-                                          ),
-                                      errorTextStyle: WPText.textStyleBold
-                                          .copyWith(
-                                            color: appErrorRed,
-                                            fontSize: 16,
-                                          ),
                                     ),
                                     if (incorrect) ...[
+                                      const SizedBox(height: 8),
                                       WPText.medium(
                                         strings.validation_invalid_otp,
                                         color: appErrorRed,

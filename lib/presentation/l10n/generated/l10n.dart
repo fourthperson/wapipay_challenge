@@ -433,6 +433,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Confirm Logout`
+  String get title_confirm_logout {
+    return Intl.message(
+      'Confirm Logout',
+      name: 'title_confirm_logout',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure you want to log out?`
+  String get confirm_logout_rationale {
+    return Intl.message(
+      'Are you sure you want to log out?',
+      name: 'confirm_logout_rationale',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Welcome,`
+  String get label_welcome {
+    return Intl.message('Welcome,', name: 'label_welcome', desc: '', args: []);
+  }
+
+  /// `Logout`
+  String get label_logout {
+    return Intl.message('Logout', name: 'label_logout', desc: '', args: []);
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
