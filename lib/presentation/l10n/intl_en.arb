@@ -1,0 +1,51 @@
+{
+  "@@locale": "en",
+  "label_login": "Login",
+  "label_register": "Register",
+  "label_continue": "Continue",
+  "label_cancel": "Cancel",
+  "label_go_back": "Go back",
+  "label_confirm": "Confirm",
+  "label_check_rates": "Check our rates",
+  "label_change_language": "Change Language",
+  "label_language_english": "English",
+  "label_language_chinese": "Chinese",
+  "welcome_title_1": "Send money instantly",
+  "welcome_title_2": "Every payment matters",
+  "welcome_title_3": "Connecting Africa and Asia trade",
+  "welcome_title_4": "One app, all your money",
+  "welcome_subtitle_1": "Fast, secure, across borders",
+  "welcome_subtitle_2": "Move money with meaning",
+  "welcome_subtitle_3": "Business, remittances, and more",
+  "welcome_subtitle_4": "Fast, secure, across borders",
+  "welcome_back": "Welcome back!",
+  "enter_phone_number_rationale": "Enter the phone number associated with your Wapi Pay account",
+  "label_select_country": "Select country",
+  "search_country": "Search country / region",
+  "label_phone_number": "Phone number",
+  "i_accept_the": "I accept Wapi Pay ",
+  "validation_invalid_phone": "Please enter a valid phone number",
+  "privacy_policy": "Privacy Policy",
+  "terms_of_service": "Terms of Service",
+  "number_confirmation_rationale": "Is this number correct? We'll send you a confirmation code there",
+  "enter_otp": "Enter your OTP",
+  "enter_otp_rationale": "We've sent you the OTP through SMS to {phone}",
+  "@enter_otp_rationale": {
+    "placeholders": {
+      "phone": {
+        "type": "String"
+      }
+    }
+  },
+  "resend_otp_timer": "Resend OTP in ({time})s",
+  "@resend_otp_timer": {
+    "placeholders": {
+      "time": {
+        "type": "int"
+      }
+    }
+  },
+  "resend_otp": "Resend OTP",
+  "label_try_again": "Try again",
+  "label_home": "Home"
+}

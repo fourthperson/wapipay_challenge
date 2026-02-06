@@ -1,0 +1,72 @@
+name: wapipay_challenge
+description: "WapiPay Flutter Challenge"
+publish_to: 'none'
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.10.7
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  auto_route: ^11.1.0
+  equatable: ^2.0.8
+  freezed_annotation: ^3.1.0
+  flutter_bloc: ^9.1.1
+  get_it: ^9.2.0
+  json_annotation: ^4.10.0
+  phone_numbers_parser: ^9.0.19
+
+  cached_network_image: ^3.4.1
+  cupertino_icons: ^1.0.8
+  google_fonts: ^8.0.0
+  modal_bottom_sheet: ^3.0.0
+  pinput: ^6.0.2
+  rflutter_alert: ^2.0.7
+  smooth_page_indicator: ^2.0.1
+  logger: ^2.6.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  auto_route_generator: ^10.4.0
+  build_runner: ^2.10.5
+  flutter_lints: ^6.0.0
+  flutter_gen_runner: ^5.12.0
+  freezed: ^3.2.5
+  json_serializable: ^6.12.0
+
+flutter:
+  assets:
+    - assets/font/
+    - assets/image/
+
+  fonts:
+    - family: Halenoir
+      fonts:
+        - asset: assets/font/HalenoirCompact-Light.otf
+          weight: 300
+        - asset: assets/font/HalenoirCompact-Regular.otf
+          weight: 400
+        - asset: assets/font/HalenoirCompact-Medium.otf
+          weight: 500
+        - asset: assets/font/Halenoir-Bold.otf
+          weight: 700
+        - asset: assets/font/Halenoir-Black.otf
+          weight: 900
+
+  uses-material-design: true
+
+flutter_gen:
+  output: lib/presentation/generated/
+  parse_metadata: true
+
+flutter_intl:
+  enabled: true
+  arb_dir: lib/presentation/l10n
+  output_dir: lib/presentation/l10n/generated
