@@ -37,7 +37,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     final bool isValid = isPhoneValid(event.phone, state.selectedCountry.iso);
     emit(
       state.copyWith(
-        phoneNumber: event.phone,
+        phoneNumber: isValid
+            ? phoneToE164(event.phone, state.selectedCountry.iso)
+            : event.phone,
         isPhoneValid: isValid,
         showError: false,
         status: LoginStatus.initial,

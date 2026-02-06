@@ -50,7 +50,9 @@ class _LoginScreenState extends State<LoginScreen>
   @override
   void dispose() {
     phoneController.dispose();
-    shakeController.dispose();
+    if (shakeController.isAnimating || shakeController.value != 0) {
+      shakeController.dispose();
+    }
     super.dispose();
   }
 
@@ -271,14 +273,10 @@ class _LoginScreenState extends State<LoginScreen>
     LoginState state,
     S strings,
   ) {
-    final String phone = phoneToE164(
-      state.phoneNumber,
-      state.selectedCountry.iso,
-    );
     alertDialog(
       context,
       WPAlert(
-        title: phone,
+        title: state.phoneNumber,
         message: strings.number_confirmation_rationale,
         negativeButton: strings.label_go_back,
         onPositiveTap: () {
