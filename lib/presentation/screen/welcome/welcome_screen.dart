@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,19 +26,9 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
-  late PageController _pageController;
-
-  @override
-  void initState() {
-    super.initState();
-    _pageController = PageController();
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
-  }
+  final CarouselSliderController carouselController =
+      CarouselSliderController();
+  int pageIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -118,32 +109,37 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        SizedBox(
-                          height: 160,
-                          child: PageView(
-                            controller: _pageController,
-                            physics: const ClampingScrollPhysics(),
-                            children: pagerItems
-                                .map(
-                                  (
-                                    WelcomeItem item,
-                                  ) => TweenAnimationBuilder<double>(
-                                    tween: Tween(begin: 0.0, end: 1.0),
-                                    duration: const Duration(milliseconds: 800),
-                                    curve: Curves.easeOut,
-                                    builder: (context, value, child) {
-                                      return Opacity(
-                                        opacity: value,
-                                        child: Transform.translate(
-                                          offset: Offset(0, 20 * (1 - value)),
-                                          child: WelcomePagerItem(item: item),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                )
-                                .toList(growable: false),
+                        CarouselSlider.builder(
+                          itemCount: pagerItems.length,
+                          carouselController: carouselController,
+                          options: CarouselOptions(
+                            height: 160,
+                            autoPlay: true,
+                            viewportFraction: 1.0,
+                            onPageChanged: (int index, _) {
+                              setState(() {
+                                pageIndex = index;
+                              });
+                            },
                           ),
+                          itemBuilder: (BuildContext _, int index, int _) {
+                            return TweenAnimationBuilder<double>(
+                              tween: Tween(begin: 0.0, end: 1.0),
+                              duration: const Duration(milliseconds: 800),
+                              curve: Curves.easeOut,
+                              builder: (_, value, child) {
+                                return Opacity(
+                                  opacity: value,
+                                  child: Transform.translate(
+                                    offset: Offset(0, 20 * (1 - value)),
+                                    child: WelcomePagerItem(
+                                      item: pagerItems[index],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                         ),
                         SizedBox(height: 16),
                         WPText.link(
@@ -153,16 +149,18 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         ),
                         SizedBox(height: 24),
                         Center(
-                          child: SmoothPageIndicator(
-                            controller: _pageController,
-                            count: 4,
+                          child: AnimatedSmoothIndicator(
+                            count: pagerItems.length,
+                            activeIndex: pageIndex,
                             effect: ExpandingDotsEffect(
                               dotColor: appGrey,
                               activeDotColor: appBlack,
                               dotWidth: 8,
                               dotHeight: 8,
                             ),
-                            onDotClicked: (index) {},
+                            onDotClicked: (index) {
+                              carouselController.animateToPage(index);
+                            },
                           ),
                         ),
                         SizedBox(height: 16),

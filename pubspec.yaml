@@ -26,6 +26,7 @@ dependencies:
 
   animate_do: ^4.2.0
   cached_network_image: ^3.4.1
+  carousel_slider: ^5.1.2
   cupertino_icons: ^1.0.8
   modal_bottom_sheet: ^3.0.0
   pinput: ^6.0.2
