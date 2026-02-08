@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wapipay_challenge/domain/entity/user.dart';
 import 'package:wapipay_challenge/domain/use_case/user_get_use_case.dart';
 
 part 'pin_event.dart';
@@ -19,10 +20,14 @@ class PinBloc extends Bloc<PinEvent, PinState> {
     PinSubmittedEvent event,
     Emitter<PinState> emit,
   ) async {
+    if (state.status == PinStatus.temporarilyLocked) return;
+
     emit(state.copyWith(status: PinStatus.loading));
 
+    await Future.delayed(const Duration(seconds: 1));
+
     try {
-      final user = await _userGetUseCase.invoke();
+      final User? user = await _userGetUseCase.invoke();
 
       if (user == null) {
         emit(
@@ -35,12 +40,24 @@ class PinBloc extends Bloc<PinEvent, PinState> {
       }
 
       if (event.enteredPin == user.pin) {
-        emit(state.copyWith(status: PinStatus.success));
+        emit(state.copyWith(status: PinStatus.success, attempts: 0));
       } else {
+        final int attempts = state.attempts + 1;
+        if (attempts >= 3) {
+          emit(
+            state.copyWith(
+              status: PinStatus.temporarilyLocked,
+              attempts: attempts,
+              errorMessage: 'Too many failed attempts.',
+            ),
+          );
+          return;
+        }
         emit(
           state.copyWith(
-            status: PinStatus.failure,
-            errorMessage: 'The PIN you entered is incorrect.',
+            status: PinStatus.incorrect,
+            attempts: attempts,
+            errorMessage: 'Incorrect PIN. ${3 - attempts} attempts remaining',
           ),
         );
       }

@@ -5,6 +5,8 @@ import 'package:wapipay_challenge/presentation/l10n/generated/l10n.dart';
 import 'package:wapipay_challenge/presentation/navigation/navigation.gr.dart';
 import 'package:wapipay_challenge/presentation/screen/pin/bloc/pin_bloc.dart';
 import 'package:wapipay_challenge/presentation/theme/colors.dart';
+import 'package:wapipay_challenge/presentation/util/functions.dart';
+import 'package:wapipay_challenge/presentation/widget/alert_dialog.dart';
 import 'package:wapipay_challenge/presentation/widget/app_bar.dart';
 import 'package:wapipay_challenge/presentation/widget/button.dart';
 import 'package:wapipay_challenge/presentation/widget/keyboard.dart';
@@ -42,25 +44,49 @@ class _PinScreenState extends State<PinScreen> {
     return BlocListener<PinBloc, PinState>(
       listener: (BuildContext context, PinState state) {
         if (state.status == PinStatus.failure) {
-          // Reset the field on wrong PIN so they can try again
           pinController.clear();
+          alertDialog(
+            context,
+            WPAlert.error(
+              context: context,
+              title: strings.title_an_error_occurred,
+              message: strings.an_error_cooured_rationale,
+              onRetry: () => context.read<PinBloc>().add(
+                PinSubmittedEvent(pinController.text.trim()),
+              ),
+            ),
+          );
+        }
 
-          // Show error alert or snackbar
-          // ScaffoldMessenger.of(context).showSnackBar(
-          //   SnackBar(
-          //     content: Text(state.errorMessage ?? strings.error_occurred),
-          //     backgroundColor: appErrorRed,
-          //   ),
-          // );
+        if (state.status == PinStatus.temporarilyLocked) {
+          pinController.clear();
+          alertDialog(
+            context,
+            WPAlert.error(
+              context: context,
+              title: strings.title_temporarily_locked,
+              message: strings.too_many_failed_pin_attempts,
+              positiveButtonLabel: strings.label_back_to_login,
+              negativeButtonLabel: strings.label_contact_support,
+              onRetry: () => context.router.replaceAll([
+                const WelcomeRoute(),
+                const LoginRoute(),
+              ]),
+            ),
+          );
         }
 
         if (state.status == PinStatus.success) {
           context.router.replaceAll([const HomeRoute()]);
+        } else if (state.status == PinStatus.incorrect) {
+          pinController.clear();
         }
       },
       child: BlocBuilder<PinBloc, PinState>(
         builder: (BuildContext context, PinState state) {
           final bool isLoading = state.status == PinStatus.loading;
+          final bool incorrect = state.status == PinStatus.incorrect;
+          final bool isLocked = state.status == PinStatus.temporarilyLocked;
 
           return GestureDetector(
             behavior: HitTestBehavior.opaque,
@@ -86,16 +112,29 @@ class _PinScreenState extends State<PinScreen> {
                                   fontSize: 34,
                                   textAlign: TextAlign.center,
                                 ),
-                                const SizedBox(height: 36),
+                                const Spacer(),
                                 WPPinField(
                                   length: 4,
                                   controller: pinController,
                                   obscureText: true,
+                                  forceErrorState: incorrect,
                                   onCompleted: (String pin) => context
                                       .read<PinBloc>()
                                       .add(PinSubmittedEvent(pin)),
                                 ),
-                                const SizedBox(height: 36),
+                                if (incorrect || isLocked) ...[
+                                  SizedBox(height: 8),
+                                  WPText.medium(
+                                    isLocked
+                                        ? strings.too_many_failed_pin_attempts
+                                        : strings.incorrect_pin_attempt(
+                                            3 - state.attempts,
+                                          ),
+                                    color: appErrorRed,
+                                    textAlign: TextAlign.center,
+                                  ),
+                                ],
+                                const Spacer(),
                                 WPKeyboard(
                                   delete: () {
                                     if (pinController.text.isNotEmpty) {
@@ -118,6 +157,7 @@ class _PinScreenState extends State<PinScreen> {
                             ),
                           ),
                         ),
+                        SizedBox(height: 16),
                         Container(
                           color: appBlack,
                           padding: const EdgeInsets.all(16),

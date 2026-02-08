@@ -463,6 +463,56 @@ class S {
   String get label_logout {
     return Intl.message('Logout', name: 'label_logout', desc: '', args: []);
   }
+
+  /// `Incorrect PIN. You have {attempts} attempts remaining`
+  String incorrect_pin_attempt(int attempts) {
+    return Intl.message(
+      'Incorrect PIN. You have $attempts attempts remaining',
+      name: 'incorrect_pin_attempt',
+      desc: '',
+      args: [attempts],
+    );
+  }
+
+  /// `Too many failed attempts. Please try again after 30 minutes`
+  String get too_many_failed_pin_attempts {
+    return Intl.message(
+      'Too many failed attempts. Please try again after 30 minutes',
+      name: 'too_many_failed_pin_attempts',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Temporarily locked`
+  String get title_temporarily_locked {
+    return Intl.message(
+      'Temporarily locked',
+      name: 'title_temporarily_locked',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Back to Login`
+  String get label_back_to_login {
+    return Intl.message(
+      'Back to Login',
+      name: 'label_back_to_login',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contact Support`
+  String get label_contact_support {
+    return Intl.message(
+      'Contact Support',
+      name: 'label_contact_support',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

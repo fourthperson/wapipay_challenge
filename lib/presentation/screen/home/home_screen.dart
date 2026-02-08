@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocListener<HomeBloc, HomeState>(
       listener: (BuildContext context, HomeState state) {
         if (state.status == HomeStatus.unauthenticated) {
-          context.router.replaceAll([const LoginRoute()]);
+          context.router.replaceAll([const WelcomeRoute(), const LoginRoute()]);
         }
       },
       child: Scaffold(

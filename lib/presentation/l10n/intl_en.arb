@@ -59,5 +59,17 @@
   "title_confirm_logout": "Confirm Logout",
   "confirm_logout_rationale": "Are you sure you want to log out?",
   "label_welcome": "Welcome,",
-  "label_logout": "Logout"
+  "label_logout": "Logout",
+  "incorrect_pin_attempt": "Incorrect PIN. You have {attempts} attempts remaining",
+  "@incorrect_pin_attempt": {
+    "placeholders": {
+      "attempts": {
+        "type": "int"
+      }
+    }
+  },
+  "too_many_failed_pin_attempts": "Too many failed attempts. Please try again after 30 minutes",
+  "title_temporarily_locked": "Temporarily locked",
+  "label_back_to_login": "Back to Login",
+  "label_contact_support": "Contact Support"
 }

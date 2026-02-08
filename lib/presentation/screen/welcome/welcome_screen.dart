@@ -181,8 +181,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                               Expanded(
                                 child: WPButton.secondary(
                                   strings.label_register,
-                                  onTap: () =>
-                                      context.router.push(const HomeRoute()),
                                 ),
                               ),
                             ],

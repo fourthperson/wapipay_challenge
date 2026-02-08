@@ -22,7 +22,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(phone) => "We\'ve sent you the OTP through SMS to ${phone}";
 
-  static String m1(time) => "Resend OTP in (${time})s";
+  static String m1(attempts) =>
+      "Incorrect PIN. You have ${attempts} attempts remaining";
+
+  static String m2(time) => "Resend OTP in (${time})s";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -41,6 +44,10 @@ class MessageLookup extends MessageLookupByLibrary {
       "Phone number not registered",
     ),
     "i_accept_the": MessageLookupByLibrary.simpleMessage("I accept Wapi Pay "),
+    "incorrect_pin_attempt": m1,
+    "label_back_to_login": MessageLookupByLibrary.simpleMessage(
+      "Back to Login",
+    ),
     "label_cancel": MessageLookupByLibrary.simpleMessage("Cancel"),
     "label_change_language": MessageLookupByLibrary.simpleMessage(
       "Change Language",
@@ -49,6 +56,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Check our rates",
     ),
     "label_confirm": MessageLookupByLibrary.simpleMessage("Confirm"),
+    "label_contact_support": MessageLookupByLibrary.simpleMessage(
+      "Contact Support",
+    ),
     "label_continue": MessageLookupByLibrary.simpleMessage("Continue"),
     "label_enter_pin": MessageLookupByLibrary.simpleMessage("Enter PIN"),
     "label_forgot_pin": MessageLookupByLibrary.simpleMessage(
@@ -78,7 +88,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "privacy_policy": MessageLookupByLibrary.simpleMessage("Privacy Policy"),
     "resend_otp": MessageLookupByLibrary.simpleMessage("Resend OTP"),
-    "resend_otp_timer": m1,
+    "resend_otp_timer": m2,
     "search_country": MessageLookupByLibrary.simpleMessage(
       "Search country / region",
     ),
@@ -90,6 +100,12 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "title_confirm_logout": MessageLookupByLibrary.simpleMessage(
       "Confirm Logout",
+    ),
+    "title_temporarily_locked": MessageLookupByLibrary.simpleMessage(
+      "Temporarily locked",
+    ),
+    "too_many_failed_pin_attempts": MessageLookupByLibrary.simpleMessage(
+      "Too many failed attempts. Please try again after 30 minutes",
     ),
     "validation_invalid_otp": MessageLookupByLibrary.simpleMessage(
       "Incorrect OTP. Please try again",

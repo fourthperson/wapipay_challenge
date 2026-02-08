@@ -22,7 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(phone) => "我们已通过短信向 ${phone} 发送了验证码";
 
-  static String m1(time) => "将在 (${time}) 秒后重发";
+  static String m2(time) => "将在 (${time}) 秒后重发";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
@@ -68,7 +68,7 @@ class MessageLookup extends MessageLookupByLibrary {
     ),
     "privacy_policy": MessageLookupByLibrary.simpleMessage("隐私政策"),
     "resend_otp": MessageLookupByLibrary.simpleMessage("重发验证码"),
-    "resend_otp_timer": m1,
+    "resend_otp_timer": m2,
     "search_country": MessageLookupByLibrary.simpleMessage("搜索国家/地区"),
     "terms_of_service": MessageLookupByLibrary.simpleMessage("服务条款"),
     "title_an_error_occurred": MessageLookupByLibrary.simpleMessage("发生错误"),

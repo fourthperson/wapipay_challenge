@@ -169,8 +169,8 @@ class WPPinField extends StatelessWidget {
       obscuringWidget: Container(
         height: 8,
         width: 8,
-        decoration: const BoxDecoration(
-          color: appBlack,
+        decoration: BoxDecoration(
+          color: forceErrorState ? appErrorRed : appBlack,
           shape: BoxShape.circle,
         ),
       ),
