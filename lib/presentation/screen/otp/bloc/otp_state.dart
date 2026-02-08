@@ -22,7 +22,6 @@ class OtpState extends Equatable {
     int? remainingTime,
     bool? canResend,
     String? errorMessage,
-    // Using a "wrapped" null to allow clearing the result
     OtpResult? Function()? otpResult,
   }) {
     return OtpState(

@@ -40,6 +40,9 @@ class MessageLookup extends MessageLookupByLibrary {
     "enter_phone_number_rationale": MessageLookupByLibrary.simpleMessage(
       "Enter the phone number associated with your Wapi Pay account",
     ),
+    "error_failed_to_load_countries": MessageLookupByLibrary.simpleMessage(
+      "Failed to load countries",
+    ),
     "error_phone_number_not_registered": MessageLookupByLibrary.simpleMessage(
       "Phone number not registered",
     ),
@@ -60,6 +63,9 @@ class MessageLookup extends MessageLookupByLibrary {
       "Contact Support",
     ),
     "label_continue": MessageLookupByLibrary.simpleMessage("Continue"),
+    "label_empty_country": MessageLookupByLibrary.simpleMessage(
+      "No countries found",
+    ),
     "label_enter_pin": MessageLookupByLibrary.simpleMessage("Enter PIN"),
     "label_forgot_pin": MessageLookupByLibrary.simpleMessage(
       "Forgot your PIN?",

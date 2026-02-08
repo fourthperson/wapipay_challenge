@@ -71,5 +71,7 @@
   "too_many_failed_pin_attempts": "Too many failed attempts. Please try again after 30 minutes",
   "title_temporarily_locked": "Temporarily locked",
   "label_back_to_login": "Back to Login",
-  "label_contact_support": "Contact Support"
+  "label_contact_support": "Contact Support",
+  "error_failed_to_load_countries": "Failed to load countries",
+  "label_empty_country": "No countries found"
 }

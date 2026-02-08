@@ -513,6 +513,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Failed to load countries`
+  String get error_failed_to_load_countries {
+    return Intl.message(
+      'Failed to load countries',
+      name: 'error_failed_to_load_countries',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No countries found`
+  String get label_empty_country {
+    return Intl.message(
+      'No countries found',
+      name: 'label_empty_country',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -92,7 +92,7 @@ class _CountryListState extends State<CountryList> {
                   ],
                 ),
                 const SizedBox(height: 8),
-                Expanded(child: _buildContent(state)),
+                Expanded(child: _buildContent(state, strings)),
               ],
             );
           },
@@ -101,17 +101,17 @@ class _CountryListState extends State<CountryList> {
     );
   }
 
-  Widget _buildContent(CountriesState state) {
+  Widget _buildContent(CountriesState state, S strings) {
     return switch (state) {
       CountriesLoadingState() => const Center(child: WPLoader()),
 
       CountriesErrorState() => Center(
-        child: WPText.medium('Failed to load countries'),
+        child: WPText.medium(strings.error_failed_to_load_countries),
       ),
 
       CountriesLoadedState(filteredCountries: final List<Country> list) =>
         list.isEmpty
-            ? const Center(child: Text('No countries found'))
+            ? Center(child: Text(strings.label_empty_country))
             : ListView.builder(
                 shrinkWrap: true,
                 itemCount: list.length,

@@ -40,6 +40,11 @@ class MockApiDataSource extends ApiDataSource {
 
       phone = phone.replaceAll('+', '');
 
+      // test number to simulate an error
+      if (phone == '254722000000') {
+        return FailedAuthResult();
+      }
+
       Map<String, dynamic>? foundUser;
 
       for (final Map<String, dynamic> user in _mockUsers) {
@@ -190,7 +195,7 @@ class MockApiDataSource extends ApiDataSource {
     {
       'id': 'f47ac10b-58cc-4372-a567-0e02b2c3d479',
       'phone': '254700111222',
-      'fullName': 'Kamau Njoroge',
+      'fullName': 'Test Kenyan',
       'otp': '123456',
       'pin': '1111',
     },
@@ -211,7 +216,7 @@ class MockApiDataSource extends ApiDataSource {
     {
       'id': 'a1b2c3d4-e5f6-4a5b-8c9d-0e1f2a3b4c5d',
       'phone': '2349015556677',
-      'fullName': null,
+      'fullName': 'Nigerian Prince',
       'otp': '333444',
       'pin': '4444',
     },
@@ -225,7 +230,7 @@ class MockApiDataSource extends ApiDataSource {
     {
       'id': '123e4567-e89b-12d3-a456-426614174000',
       'phone': '8615098765432',
-      'fullName': null,
+      'fullName': 'Test Chinese',
       'otp': '000000',
       'pin': '6666',
     },

@@ -7,7 +7,6 @@ import 'package:phone_numbers_parser/phone_numbers_parser.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:url_launcher/url_launcher_string.dart';
-import 'package:wapipay_challenge/presentation/theme/colors.dart';
 
 void bottomSheet(BuildContext context, Widget content) {
   content = SafeArea(child: content);
@@ -41,7 +40,6 @@ void alertDialog(BuildContext context, Widget content) {
     context: context,
     type: AlertType.none,
     content: content,
-    closeIcon: Icon(Icons.close_outlined, color: appBlack),
     style: AlertStyle(
       isButtonVisible: false,
       isCloseButton: false,

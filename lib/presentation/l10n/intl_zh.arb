@@ -45,5 +45,10 @@
   "title_confirm_logout": "确认退出",
   "confirm_logout_rationale": "您确定要退出登录吗？",
   "label_welcome": "欢迎，",
-  "label_logout": "退出登录"
+  "label_logout": "退出登录",
+  "incorrect_pin_attempt": "密码错误。您还剩 {attempts} 次尝试机会",
+  "too_many_failed_pin_attempts": "尝试次数过多。请在 30 分钟后再试",
+  "title_temporarily_locked": "账户暂时锁定",
+  "label_back_to_login": "返回登录",
+  "label_contact_support": "联系客服"
 }

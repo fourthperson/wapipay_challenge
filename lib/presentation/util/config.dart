@@ -12,4 +12,8 @@ class Config {
 
   static String privacyPolicyUrl = 'https://wapipay.com/privacy_policy';
   static String termsOfServiceUrl = 'https://wapipay.com/terms_of_service';
+
+  // static String failurePhone = '254722000000';
+  // static String failureOtp = '000000';
+  // static String failurePin = '9999';
 }

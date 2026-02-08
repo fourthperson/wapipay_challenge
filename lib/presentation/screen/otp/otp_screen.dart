@@ -60,12 +60,15 @@ class _OtpScreenState extends State<OtpScreen> {
               context: context,
               title: strings.title_an_error_occurred,
               message: strings.an_error_cooured_rationale,
-              onRetry: () => context.read<OtpBloc>().add(
-                OtpVerifySubmittedEvent(
-                  phone: widget.phone,
-                  otp: otpController.text.trim(),
-                ),
-              ),
+              onRetry: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+                context.read<OtpBloc>().add(
+                  OtpVerifySubmittedEvent(
+                    phone: widget.phone,
+                    otp: otpController.text.trim(),
+                  ),
+                );
+              },
             ),
           );
         }
@@ -119,13 +122,16 @@ class _OtpScreenState extends State<OtpScreen> {
                                           );
                                         }
                                       },
-                                      onCompleted: (pin) =>
-                                          context.read<OtpBloc>().add(
-                                            OtpVerifySubmittedEvent(
-                                              phone: widget.phone,
-                                              otp: pin,
-                                            ),
+                                      onCompleted: (pin) {
+                                        FocusManager.instance.primaryFocus
+                                            ?.unfocus();
+                                        context.read<OtpBloc>().add(
+                                          OtpVerifySubmittedEvent(
+                                            phone: widget.phone,
+                                            otp: pin,
                                           ),
+                                        );
+                                      },
                                     ),
                                     if (incorrect) ...[
                                       const SizedBox(height: 8),

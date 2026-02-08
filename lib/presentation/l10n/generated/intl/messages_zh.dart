@@ -22,6 +22,8 @@ class MessageLookup extends MessageLookupByLibrary {
 
   static String m0(phone) => "我们已通过短信向 ${phone} 发送了验证码";
 
+  static String m1(attempts) => "密码错误。您还剩 ${attempts} 次尝试机会";
+
   static String m2(time) => "将在 (${time}) 秒后重发";
 
   final messages = _notInlinedMessages(_notInlinedMessages);
@@ -41,10 +43,13 @@ class MessageLookup extends MessageLookupByLibrary {
       "手机号码未注册",
     ),
     "i_accept_the": MessageLookupByLibrary.simpleMessage("我接受 Wapi Pay 的"),
+    "incorrect_pin_attempt": m1,
+    "label_back_to_login": MessageLookupByLibrary.simpleMessage("返回登录"),
     "label_cancel": MessageLookupByLibrary.simpleMessage("取消"),
     "label_change_language": MessageLookupByLibrary.simpleMessage("更改语言"),
     "label_check_rates": MessageLookupByLibrary.simpleMessage("查看汇率"),
     "label_confirm": MessageLookupByLibrary.simpleMessage("确认"),
+    "label_contact_support": MessageLookupByLibrary.simpleMessage("联系客服"),
     "label_continue": MessageLookupByLibrary.simpleMessage("继续"),
     "label_enter_pin": MessageLookupByLibrary.simpleMessage("输入密码"),
     "label_forgot_pin": MessageLookupByLibrary.simpleMessage("忘记密码？"),
@@ -73,6 +78,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "terms_of_service": MessageLookupByLibrary.simpleMessage("服务条款"),
     "title_an_error_occurred": MessageLookupByLibrary.simpleMessage("发生错误"),
     "title_confirm_logout": MessageLookupByLibrary.simpleMessage("确认退出"),
+    "title_temporarily_locked": MessageLookupByLibrary.simpleMessage("账户暂时锁定"),
+    "too_many_failed_pin_attempts": MessageLookupByLibrary.simpleMessage(
+      "尝试次数过多。请在 30 分钟后再试",
+    ),
     "validation_invalid_otp": MessageLookupByLibrary.simpleMessage("验证码错误，请重试"),
     "validation_invalid_phone": MessageLookupByLibrary.simpleMessage(
       "请输入有效的手机号码",

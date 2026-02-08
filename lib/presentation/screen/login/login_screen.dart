@@ -137,6 +137,7 @@ class _LoginScreenState extends State<LoginScreen>
                                   const SizedBox(height: 16),
                                   WPTextField(
                                     controller: phoneController,
+                                    isLastInputInForm: true,
                                     errored:
                                         state.showError && !state.isPhoneValid,
                                     textInputType: TextInputType.phone,
@@ -242,7 +243,10 @@ class _LoginScreenState extends State<LoginScreen>
             strings.label_continue,
             isActive: hasMinimumLength || isFormValid,
             onTap: hasMinimumLength || isFormValid
-                ? () => _handleContinueTap(context, state, strings, isFormValid)
+                ? () {
+                    FocusManager.instance.primaryFocus?.unfocus();
+                    _handleContinueTap(context, state, strings, isFormValid);
+                  }
                 : null,
           ),
         ),

@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             child: BlocBuilder<HomeBloc, HomeState>(
-              builder: (context, state) {
+              builder: (BuildContext context, HomeState state) {
                 if (state.status == HomeStatus.loading) {
                   return const Center(child: WPLoader());
                 }

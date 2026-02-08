@@ -125,6 +125,7 @@ class WPPinField extends StatelessWidget {
     this.onCompleted,
     this.onChanged,
     this.forceErrorState = false,
+    this.disableSystemKeyboard = false,
     this.obscureText = false,
     super.key,
   });
@@ -134,6 +135,7 @@ class WPPinField extends StatelessWidget {
   final ValueChanged<String>? onCompleted;
   final ValueChanged<String>? onChanged;
   final bool forceErrorState;
+  final bool disableSystemKeyboard;
   final bool obscureText;
 
   static final PinTheme pinTheme = PinTheme(
@@ -153,6 +155,7 @@ class WPPinField extends StatelessWidget {
     return Pinput(
       length: length,
       controller: controller,
+      readOnly: disableSystemKeyboard,
       obscureText: obscureText,
       forceErrorState: forceErrorState,
       onCompleted: onCompleted,

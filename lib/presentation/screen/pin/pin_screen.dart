@@ -117,6 +117,7 @@ class _PinScreenState extends State<PinScreen> {
                                   length: 4,
                                   controller: pinController,
                                   obscureText: true,
+                                  disableSystemKeyboard: true,
                                   forceErrorState: incorrect,
                                   onCompleted: (String pin) => context
                                       .read<PinBloc>()
